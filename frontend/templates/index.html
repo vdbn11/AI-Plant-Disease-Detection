@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang="page_title">تسجيل الدخول - نظام أمراض النباتات</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
+        body { background-color: #f0fdf4; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .card-container { background: #ffffff; width: 100%; max-width: 450px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); overflow: hidden; border: 1px solid #e2e8f0; position: relative; }
+        .card-header { background: linear-gradient(135deg, #1b4332, #2d6a4f); color: white; padding: 30px 20px; text-align: center; position: relative; }
+        .card-header h2 { font-size: 22px; margin-bottom: 8px; }
+        .card-header p { font-size: 13px; opacity: 0.9; }
+        .lang-btn-pos { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.4); padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .lang-btn-pos:hover { background: #ffffff; color: #1b4332; }
+        .nav-tabs { display: flex; background: #e8f5e9; border-bottom: 1px solid #c8e6c9; }
+        .tab-btn { flex: 1; padding: 14px; border: none; background: transparent; color: #2d6a4f; font-weight: bold; font-size: 15px; cursor: pointer; transition: all 0.3s; }
+        .tab-btn.active { background: #ffffff; color: #1b4332; border-bottom: 3px solid #2d6a4f; }
+        .card-body { padding: 30px; }
+        .form-group { margin-bottom: 18px; text-align: right; }
+        .form-group label { display: block; font-size: 13px; font-weight: bold; color: #1b4332; margin-bottom: 6px; }
+        .form-control { width: 100%; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; transition: border 0.3s; background: #f8fafc; direction: ltr; text-align: right; }
+        .form-control:focus { border-color: #2d6a4f; background: #fff; }
+        .btn-submit { width: 100%; padding: 12px; background: #2d6a4f; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.3s; margin-top: 10px; }
+        .btn-submit:hover { background: #1b4332; }
+        .forgot-link, .back-home-link { display: block; text-align: center; margin-top: 15px; color: #2d6a4f; font-size: 13px; text-decoration: none; }
+        .forgot-link:hover, .back-home-link:hover { text-decoration: underline; }
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+        /* تصميم إشعارات الـ Toast العصرية */
+        #toast-container { position: fixed; bottom: 20px; left: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+        .toast-msg { background: #1b4332; color: white; padding: 12px 20px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); font-size: 14px; font-family: 'Tajawal', sans-serif; animation: fadeInOut 3s forwards; border-right: 4px solid #52b788; }
+        .toast-msg.error { background: #dc2626; border-right-color: #f87171; }
+        @keyframes fadeInOut { 0% { opacity: 0; transform: translateY(20px); } 10% { opacity: 1; transform: translateY(0); } 90% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(20px); } }
+    </style>
+</head>
+<body>
+
+    <div class="card-container">
+        <div class="card-header">
+            <!-- زر تبديل اللغات الفوري -->
+            <button onclick="toggleLanguage()" class="lang-btn-pos">🌐 EN / AR</button>
+            <h2 data-lang="header_title">🌿 نظام الذكاء الاصطناعي الزراعي</h2>
+            <p data-lang="header_sub">قم بتسجيل الدخول أو إنشاء حساب لمتابعة فحوصاتك</p>
+        </div>
+
+        <div class="nav-tabs" id="tabHeader">
+            <button type="button" class="tab-btn active" onclick="switchForm('login')" data-lang="tab_login">تسجيل الدخول</button>
+            <button type="button" class="tab-btn" onclick="switchForm('register')" data-lang="tab_register">حساب جديد</button>
+        </div>
+
+        <div class="card-body">
+            <!-- 1. نموذج تسجيل الدخول -->
+            <form id="loginForm" class="form-section active" action="/home" method="POST" autocomplete="off">
+                <div class="form-group">
+                    <label data-lang="lbl_email">البريد الإلكتروني (English only)</label>
+                    <input type="email" name="email" class="form-control" placeholder="example@mail.com" maxlength="254" required>
+                </div>
+                <div class="form-group">
+                    <label data-lang="lbl_pass">كلمة المرور (8 إلى 128 حرفاً)</label>
+                    <input type="password" name="password" class="form-control" placeholder="••••••••" minlength="8" maxlength="128" required>
+                </div>
+                <button type="submit" class="btn-submit" data-lang="btn_login">دخول</button>
+                <a href="#" class="forgot-link" onclick="switchForm('forgot')" data-lang="link_forgot">هل نسيت كلمة المرور؟</a>
+            </form>
+
+            <!-- 2. نموذج إنشاء حساب جديد -->
+            <form id="registerForm" class="form-section" action="/register" method="POST" autocomplete="off">
+                <div class="form-group">
+                    <label data-lang="lbl_name">الاسم الكامل (English letters only - Max 50)</label>
+                    <input type="text" name="name" class="form-control" placeholder="Abdulaziz" maxlength="50" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')" required>
+                </div>
+                <div class="form-group">
+                    <label data-lang="lbl_email">البريد الإلكتروني (English only - Max 254)</label>
+                    <input type="email" name="email" class="form-control" placeholder="example@mail.com" maxlength="254" required>
+                </div>
+                <div class="form-group">
+                    <label data-lang="lbl_pass">كلمة المرور (8 إلى 128 حرفاً)</label>
+                    <input type="password" name="password" class="form-control" placeholder="••••••••" minlength="8" maxlength="128" required>
+                </div>
+                <button type="submit" class="btn-submit" data-lang="btn_register">إنشاء الحساب</button>
+            </form>
+
+            <!-- 3. نموذج استعادة كلمة المرور -->
+            <form id="forgotForm" class="form-section" action="/forgot-password" method="POST" autocomplete="off">
+                <div class="form-group">
+                    <label data-lang="lbl_email_reg">البريد الإلكتروني المسجل</label>
+                    <input type="email" name="email" class="form-control" placeholder="example@mail.com" maxlength="254" required>
+                </div>
+                <div class="form-group">
+                    <label data-lang="lbl_new_pass">كلمة المرور الجديدة (8 إلى 128 حرفاً)</label>
+                    <input type="password" name="new_password" class="form-control" placeholder="••••••••" minlength="8" maxlength="128" required>
+                </div>
+                <button type="submit" class="btn-submit" data-lang="btn_update_pass">تحديث كلمة المرور</button>
+                <a href="#" class="forgot-link" onclick="switchForm('login')" data-lang="link_back_login">العودة لتسجيل الدخول</a>
+            </form>
+
+            <!-- زر العودة للصفحة الرئيسية للموقع -->
+            <a href="/" class="back-home-link" style="margin-top: 25px; font-weight: bold; border-top: 1px solid #e2e8f0; padding-top: 15px;" data-lang="link_home">← العودة للصفحة الرئيسية الشارحة للموقع</a>
+        </div>
+    </div>
+
+    <!-- حاوية إشعارات الـ Toast -->
+    <div id="toast-container"></div>
+
+    <script>
+        function switchForm(formType) {
+            document.getElementById('loginForm').classList.remove('active');
+            document.getElementById('registerForm').classList.remove('active');
+            document.getElementById('forgotForm').classList.remove('active');
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            if (formType === 'login') {
+                document.getElementById('loginForm').classList.add('active');
+                tabs[0].classList.add('active');
+                document.getElementById('tabHeader').style.display = 'flex';
+            } else if (formType === 'register') {
+                document.getElementById('registerForm').classList.add('active');
+                tabs[1].classList.add('active');
+                document.getElementById('tabHeader').style.display = 'flex';
+            } else if (formType === 'forgot') {
+                document.getElementById('forgotForm').classList.add('active');
+                document.getElementById('tabHeader').style.display = 'none';
+            }
+        }
+
+        // دالة إظهار إشعارات الـ Toast برمجياً عند الحاجة
+        function showToast(message, isError = false) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast-msg ${isError ? 'error' : ''}`;
+            toast.innerText = message;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // نظام تعدد اللغات الدائم
+        function applyStoredLanguage() {
+            const currentLang = localStorage.getItem('site_lang') || 'ar';
+            const html = document.getElementById('htmlRoot');
+            html.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            html.setAttribute('lang', currentLang);
+
+            const translations = {
+                ar: {
+                    page_title: "تسجيل الدخول - نظام أمراض النباتات",
+                    header_title: "🌿 نظام الذكاء الاصطناعي الزراعي",
+                    header_sub: "قم بتسجيل الدخول أو إنشاء حساب لمتابعة فحوصاتك",
+                    tab_login: "تسجيل الدخول",
+                    tab_register: "حساب جديد",
+                    lbl_email: "البريد الإلكتروني (English only)",
+                    lbl_pass: "كلمة المرور (8 إلى 128 حرفاً)",
+                    btn_login: "دخول",
+                    link_forgot: "هل نسيت كلمة المرور؟",
+                    lbl_name: "الاسم الكامل (English letters only - Max 50)",
+                    btn_register: "إنشاء الحساب",
+                    lbl_email_reg: "البريد الإلكتروني المسجل",
+                    lbl_new_pass: "كلمة المرور الجديدة (8 إلى 128 حرفاً)",
+                    btn_update_pass: "تحديث كلمة المرور",
+                    link_back_login: "العودة لتسجيل الدخول",
+                    link_home: "← العودة للصفحة الرئيسية الشارحة للموقع"
+                },
+                en: {
+                    page_title: "Login - Plant Disease System",
+                    header_title: "🌿 Agricultural AI System",
+                    header_sub: "Sign in or create an account to track your scans",
+                    tab_login: "Login",
+                    tab_register: "Register",
+                    lbl_email: "Email (English only)",
+                    lbl_pass: "Password (8 to 128 characters)",
+                    btn_login: "Sign In",
+                    link_forgot: "Forgot password?",
+                    lbl_name: "Full Name (English letters only - Max 50)",
+                    btn_register: "Create Account",
+                    lbl_email_reg: "Registered Email",
+                    lbl_new_pass: "New Password (8 to 128 characters)",
+                    btn_update_pass: "Update Password",
+                    link_back_login: "Back to Login",
+                    link_home: "← Back to Home Page"
+                }
+            };
+
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[currentLang][key]) {
+                    el.textContent = translations[currentLang][key];
+                }
+            });
+        }
+
+        function toggleLanguage() {
+            const current = localStorage.getItem('site_lang') || 'ar';
+            const newLang = current === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('site_lang', newLang);
+            applyStoredLanguage();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            applyStoredLanguage();
+        });
+    </script>
+</body>
+</html>

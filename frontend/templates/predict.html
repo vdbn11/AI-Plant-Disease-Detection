@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang="page_title">النظام الذكي لتشخيص أمراض النباتات | الفحص الفوري والتحليل الذكي</title>
+    <!-- استخدام Tailwind CSS لتنسيق متناسق واحترافي -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- مكتبة تحويل الـ HTML إلى PDF مباشرة من المتصفح -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+    <!-- شريط التنقل العلوي -->
+    <header class="bg-emerald-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- اسم النظام وشعاره (رابط يوديك للصفحة الرئيسية) -->
+            <h1 class="text-xl font-bold">
+                <a href="/" class="flex items-center gap-2 text-white hover:text-emerald-200 transition no-underline">
+                    <span>🌱</span>
+                    <span data-lang="sys_name">نظام الذكاء الاصطناعي الزراعي</span>
+                </a>
+            </h1>
+            <nav class="flex gap-4 text-sm font-semibold items-center">
+                <a href="/" class="hover:text-emerald-200 transition" data-lang="nav_home">الرئيسية</a>
+                <a href="/predict_page" class="text-emerald-200 underline font-bold" data-lang="nav_predict">فحص نبتة</a>
+                <a href="/dashboard" class="hover:text-emerald-200 transition" data-lang="nav_dash">لوحة التحكم</a>
+                <a href="/search_page" class="hover:text-emerald-200 transition" data-lang="nav_search">دليـل الأمراض</a>
+                <a href="/faq_page" class="hover:text-emerald-200 transition" data-lang="nav_faq">الإرشادات</a>
+                <a href="/history_page" class="hover:text-emerald-200 transition" data-lang="nav_history">السجل</a>
+                <span class="text-emerald-200 font-bold bg-emerald-800/80 px-3 py-1.5 rounded-lg mr-2 text-xs">مرحباً، {{ session.get('user_name', 'مستخدم') }} 👤</span>
+                <!-- زر تبديل اللغات الفوري -->
+                <button onclick="toggleLanguage()" class="bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-sm">🌐 EN / AR</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container mx-auto px-4 py-10 max-w-4xl flex-grow">
+        <!-- ويدجت الطقس ومؤشر الخطر الفطري التلقائي بناءً على الموقع الحقيقي -->
+        <div class="bg-emerald-50 border border-emerald-200 p-5 rounded-2xl mb-8 flex flex-col md:flex-row justify-between items-center gap-4 shadow-sm">
+            <div class="flex items-center gap-3 text-right w-full md:w-auto">
+                <span class="text-3xl">🌤️</span>
+                <div>
+                    <p class="text-xs font-bold text-slate-600" id="locationText" data-lang="weather_location">المنطقة الزراعية: جاري تحديد موقعك الجغرافي...</p>
+                    <p class="text-xs font-semibold text-emerald-800 mt-1" id="weatherDetails">جاري جلب حالة الطقس والرطوبة الحية...</p>
+                </div>
+            </div>
+            <div id="riskIndicator" class="bg-amber-100 text-amber-900 px-4 py-2.5 rounded-xl text-xs font-black border border-amber-300 whitespace-nowrap text-center">
+                مؤشر الخطر الفطري: جاري الحساب...
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-xl p-8 border border-slate-100 space-y-6">
+            <div class="text-center mb-6">
+                <h2 class="text-3xl font-black text-emerald-900 mb-2" data-lang="main_heading">الفحص الفوري لأوراق النباتات بالذكاء الاصطناعي</h2>
+                <p class="text-slate-500 text-sm" data-lang="main_sub">قم برفع أو لصق (<span class="font-bold text-emerald-600">Ctrl + V</span>) صورة واضحة لورقة النبتة لتقييم حالتها الصحية واكتشاف الآفات بدقة فورية فائقة.</p>
+            </div>
+
+            <!-- نموذج الرفع -->
+            <form id="uploadForm" class="space-y-6">
+                <div class="border-2 border-dashed border-emerald-300 rounded-2xl p-8 text-center bg-emerald-50/40 hover:bg-emerald-50 transition cursor-pointer relative" id="dropZone">
+                    <input type="file" id="fileInput" name="file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" required>
+                    <div class="flex flex-col items-center justify-center space-y-3">
+                        <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-2xl shadow-inner">
+                            📷
+                        </div>
+                        <p class="text-slate-700 font-semibold text-sm" id="fileNameDisplay" data-lang="drop_text">اسحب وأفرغ صورة النبتة هنا، أو اضغط للاختيار، أو اضغط <span class="text-emerald-600 font-bold">Ctrl + V</span> للصق الصورة مباشرة</p>
+                        <p class="text-xs text-slate-400">يدعم صيغ الصور عالية الدقة: JPG, PNG, JPEG</p>
+                    </div>
+                </div>
+
+                <!-- معاينة الصورة -->
+                <div id="imagePreviewContainer" class="hidden text-center space-y-2">
+                    <p class="text-sm font-bold text-slate-600" data-lang="preview_label">الصورة المحددة للفحص:</p>
+                    <img id="imagePreview" class="mx-auto h-52 rounded-2xl shadow-md object-cover border-2 border-emerald-200" alt="معاينة">
+                </div>
+
+                <button type="submit" id="submitBtn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-4 rounded-2xl shadow-xl transition duration-300 text-lg flex items-center justify-center gap-2">
+                    <span>🔍</span> <span data-lang="submit_btn">تحليل وتشخيص النبتة بالذكاء الاصطناعي الآن</span>
+                </button>
+            </form>
+
+            <!-- حالة التحميل -->
+            <div id="loading" class="hidden text-center py-10 space-y-4">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-emerald-700 border-t-transparent"></div>
+                <p class="text-emerald-800 font-bold text-lg animate-pulse" data-lang="loading_text">جاري تقييم وضوح الصورة، القص المركزي، وفحص حالة النبتة بالتعلم العميق...</p>
+            </div>
+
+            <!-- صندوق النتيجة الاحترافي -->
+            <div id="resultContainer" class="hidden mt-10 bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-6 shadow-inner">
+                
+                <!-- هذا القسم سيتم طباعته وتصديره في ملف الـ PDF بخلفية بيضاء صريحة وتنسيق ثابت -->
+                <div id="pdfContent" class="space-y-6 bg-white p-6 rounded-xl border border-slate-100">
+                    <div class="border-b border-slate-200 pb-4 flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <span>📋</span> <span data-lang="report_title">تقرير التشخيص الزراعي الذكي المعتمد</span>
+                        </h3>
+                        <span id="badgeStatus" class="px-3 py-1 rounded-full text-xs font-bold"></span>
+                    </div>
+
+                    <!-- شبكة النتائج التفصيلية الأربعة -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-50 p-4 rounded-xl shadow-sm border border-slate-100">
+                            <span class="text-xs text-slate-400 font-bold" data-lang="res_class_label">التصنيف والمرض المكتشف:</span>
+                            <p id="resClass" class="text-base font-black text-emerald-900 mt-1">-</p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl shadow-sm border border-slate-100">
+                            <span class="text-xs text-slate-400 font-bold" data-lang="res_conf_label">نسبة الإصابة / الثقة:</span>
+                            <p id="resConfidence" class="text-base font-black text-rose-600 mt-1">-</p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl shadow-sm border border-slate-100">
+                            <span class="text-xs text-slate-400 font-bold" data-lang="res_sev_label">مرحلة أو حدة الإصابة:</span>
+                            <p id="resSeverity" class="text-base font-black text-amber-700 mt-1">-</p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl shadow-sm border border-slate-100">
+                            <span class="text-xs text-slate-400 font-bold" data-lang="res_rec_label">إمكانية الإنقاذ والعلاج:</span>
+                            <p id="resRecoverability" class="text-base font-black text-emerald-700 mt-1">-</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-5 rounded-xl shadow-sm border border-slate-100">
+                        <h4 class="font-bold text-emerald-800 mb-2 flex items-center gap-2"><span>💡</span> <span data-lang="res_treat_title">الخطة العلاجية والإرشادات الطبية للمحصول:</span></h4>
+                        <p id="resTreatment" class="text-slate-600 text-sm leading-relaxed">-</p>
+                    </div>
+                </div>
+
+                <!-- أزرار الإجراءات -->
+                <div class="flex flex-col gap-3 pt-2">
+                    <div id="mapContainer">
+                        <a id="mapLink" href="#" target="_blank" class="hidden w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl shadow transition text-center flex items-center justify-center gap-2">
+                            <span>📍</span> <span data-lang="map_btn">ابحث عن العلاج والمبيدات في أقرب متجر زراعي (Google Maps)</span>
+                        </a>
+                    </div>
+                    
+                    <!-- زر تحميل التقرير الرسمي PDF -->
+                    <button type="button" id="downloadPdfBtn" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 rounded-xl shadow transition flex items-center justify-center gap-2">
+                        <span>📥</span> <span data-lang="pdf_btn">تحميل التقرير الرسمي الشامل (PDF)</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- قسم نصائح سريعة -->
+        <div class="mt-8 bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-3">
+            <h4 class="font-black text-emerald-900 text-sm flex items-center gap-2"><span>📌</span> نصائح ذهبية لضمان دقة الفحص الفوري:</h4>
+            <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+                <li>احرص على أن تكون إضاءة الصورة جافة وطبيعية وتجنب الظلال الحادة على ورقة النبات.</li>
+                <li>قم بتوسيط ورقة النبات تماماً في إطار الصورة لضمان عمل خوارزمية القص المركزي بكفاءة.</li>
+                <li>تأكد من عدم اهتزاز الكاميرا لتجتاز صورة الورقة اختبار وضوح التباين واللابلاسيان.</li>
+            </ul>
+        </div>
+    </main>
+
+    <!-- حاوية إشعارات الـ Toast -->
+    <div id="toast-container" class="fixed bottom-5 left-5 z-50 flex flex-col gap-2"></div>
+
+    <!-- التذييل -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400">
+        مشروع التخرج للذكاء الاصطناعي © 2026 - جميع الحقوق محفوظة
+    </footer>
+
+    <!-- سكربت التشغيل ومعالجة الطقس الحقيقي، الـ PDF، واللغات -->
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const imagePreview = document.getElementById('imagePreview');
+        const uploadForm = document.getElementById('uploadForm');
+        const loading = document.getElementById('loading');
+        const resultContainer = document.getElementById('resultContainer');
+
+        function showToast(message, isError = false) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-5 py-3 rounded-xl shadow-xl text-white text-sm font-bold transition-all duration-300 flex items-center gap-2 ${isError ? 'bg-rose-600 border-r-4 border-rose-900' : 'bg-emerald-800 border-r-4 border-emerald-500'}`;
+            toast.innerHTML = `<span>${isError ? '⚠️' : '✨'}</span> ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // 🌤️ دالة جلب الطقس الحقيقي والموقع التلقائي للمستخدم بدقة 100%
+        async function fetchRealWeather() {
+            const weatherDetails = document.getElementById('weatherDetails');
+            const locationText = document.getElementById('locationText');
+            const riskIndicator = document.getElementById('riskIndicator');
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    
+                    try {
+                        const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=ar`);
+                        const geoData = await geoRes.json();
+                        const city = geoData.address.city || geoData.address.town || geoData.address.state || (currentLang === 'ar' ? "موقعك الحالي" : "Current Location");
+
+                        const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m`);
+                        const weatherData = await weatherRes.json();
+                        
+                        const temp = weatherData.current.temperature_2m;
+                        const humidity = weatherData.current.relative_humidity_2m;
+
+                        locationText.textContent = currentLang === 'ar' ? `المنطقة الزراعية: ${city}` : `Agricultural Zone: ${city}`;
+                        weatherDetails.textContent = currentLang === 'ar' ? `درجة الحرارة الحية: ${temp}°C | نسبة الرطوبة: ${humidity}%` : `Live Temp: ${temp}°C | Humidity: ${humidity}%`;
+
+                        let riskText = "";
+                        let riskClass = "";
+                        if (temp >= 18 && temp <= 30 && humidity > 65) {
+                            riskText = currentLang === 'ar' ? "مؤشر الخطر الفطري: مرتفع ⚠️" : "Fungal Risk Index: High ⚠️";
+                            riskClass = "bg-rose-100 text-rose-900 border-rose-300";
+                        } else if (humidity > 40) {
+                            riskText = currentLang === 'ar' ? "مؤشر الخطر الفطري: متوسط ⚠️" : "Fungal Risk Index: Medium ⚠️";
+                            riskClass = "bg-amber-100 text-amber-900 border-amber-300";
+                        } else {
+                            riskText = currentLang === 'ar' ? "مؤشر الخطر الفطري: منخفض ✅" : "Fungal Risk Index: Low ✅";
+                            riskClass = "bg-emerald-100 text-emerald-900 border-emerald-300";
+                        }
+                        riskIndicator.className = `px-4 py-2.5 rounded-xl text-xs font-black border whitespace-nowrap text-center ${riskClass}`;
+                        riskIndicator.textContent = riskText;
+
+                    } catch (e) {
+                        weatherDetails.textContent = currentLang === 'ar' ? "تعذر جلب بيانات الطقس الحالية" : "Unable to fetch live weather data";
+                    }
+                }, () => {
+                    locationText.textContent = currentLang === 'ar' ? "المنطقة الزراعية: الرياض (افتراضي)" : "Agricultural Zone: Riyadh (Default)";
+                    weatherDetails.textContent = currentLang === 'ar' ? "درجة الحرارة الحية: 34°C | نسبة الرطوبة: 25%" : "Live Temp: 34°C | Humidity: 25%";
+                    riskIndicator.textContent = currentLang === 'ar' ? "مؤشر الخطر الفطري: منخفض ✅" : "Fungal Risk Index: Low ✅";
+                });
+            } else {
+                weatherDetails.textContent = currentLang === 'ar' ? "المتصفح لا يدعم تحديد الموقع" : "Geolocation not supported";
+            }
+        }
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                fileNameDisplay.textContent = file.name;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    imagePreviewContainer.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+                showToast("تم تحميل الصورة بنجاح!");
+            }
+        });
+
+        window.addEventListener('paste', (e) => {
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    const file = items[i].getAsFile();
+                    if (file) {
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        fileInput.files = dataTransfer.files;
+                        fileNameDisplay.textContent = "صورة ملصقة (Clipboard Image)";
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            imagePreview.src = event.target.result;
+                            imagePreviewContainer.classList.remove('hidden');
+                        }
+                        reader.readAsDataURL(file);
+                        showToast("تم لصق الصورة بنجاح وجاهزة للتحليل! 📋");
+                    }
+                    break;
+                }
+            }
+        });
+
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(uploadForm);
+            
+            loading.classList.remove('hidden');
+            resultContainer.classList.add('hidden');
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                loading.classList.add('hidden');
+
+                if (data.error) {
+                    showToast(data.error, true);
+                    return;
+                }
+
+                document.getElementById('resClass').textContent = data.class;
+                document.getElementById('resConfidence').textContent = data.confidence;
+                document.getElementById('resSeverity').textContent = data.severity;
+                document.getElementById('resRecoverability').textContent = data.recoverability;
+                document.getElementById('resTreatment').textContent = data.treatment;
+
+                const mapLink = document.getElementById('mapLink');
+                if (data.map_url) {
+                    mapLink.href = `https://www.google.com/maps/search/${encodeURIComponent(data.map_url)}`;
+                    mapLink.classList.remove('hidden');
+                } else {
+                    mapLink.classList.add('hidden');
+                }
+
+                const badge = document.getElementById('badgeStatus');
+                if (data.confidence.startsWith("0.0")) {
+                    badge.textContent = "صحة ممتازة 🌿";
+                    badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800";
+                } else {
+                    badge.textContent = "توجد إصابة نشطة ⚠️";
+                    badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800";
+                }
+
+                resultContainer.classList.remove('hidden');
+                showToast("تم تحليل وتشخيص النبتة بنجاح!");
+
+            } catch (err) {
+                loading.classList.add('hidden');
+                showToast('حدث خطأ أثناء الاتصال بالخادم.', true);
+            }
+        });
+
+        // 📥 تصدير الـ PDF
+        document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+            const element = document.getElementById('pdfContent');
+            showToast("جاري إعداد وتحميل التقرير الرسمي كملف PDF...");
+
+            const options = {
+                margin:       10,
+                filename:     'Plant_Diagnosis_Report.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true, 
+                    backgroundColor: '#ffffff',
+                    letterRendering: true,
+                    scrollY: 0
+                },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            setTimeout(() => {
+                html2pdf().from(element).set(options).save().then(() => {
+                    showToast("تم تحميل التقرير الرسمي بنجاح! 📥");
+                }).catch(err => {
+                    showToast("حدث خطأ أثناء تصدير ملف الـ PDF.", true);
+                });
+            }, 500);
+        });
+
+        // نظام حفظ وتطبيق اللغات دائمًا عبر الـ LocalStorage
+        let currentLang = localStorage.getItem('site_lang') || 'ar';
+
+        function applyStoredLanguage() {
+            const html = document.getElementById('htmlRoot');
+            html.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            html.setAttribute('lang', currentLang);
+
+            const translations = {
+                ar: {
+                    page_title: "النظام الذكي لتشخيص أمراض النباتات | الفحص الفوري والتحليل الذكي",
+                    sys_name: "نظام الذكاء الاصطناعي الزراعي",
+                    nav_home: "الرئيسية", nav_predict: "فحص نبتة", nav_dash: "لوحة التحكم", nav_search: "دليـل الأمراض", nav_faq: "الإرشادات", nav_history: "السجل",
+                    main_heading: "الفحص الفوري لأوراق النباتات بالذكاء الاصطناعي",
+                    main_sub: "قم برفع أو لصق (Ctrl + V) صورة واضحة لورقة النبتة لتقييم حالتها الصحية واكتشاف الآفات بدقة فورية فائقة.",
+                    drop_text: "اسحب وأفرغ صورة النبتة هنا، أو اضغط للاختيار، أو اضغط Ctrl + V للصق الصورة مباشرة",
+                    preview_label: "الصورة المحددة للفحص:",
+                    submit_btn: "تحليل وتشخيص النبتة بالذكاء الاصطناعي الآن",
+                    loading_text: "جاري تقييم وضوح الصورة، القص المركزي، وفحص حالة النبتة بالتعلم العميق...",
+                    report_title: "تقرير التشخيص الزراعي الذكي المعتمد",
+                    res_class_label: "التصنيف والمرض المكتشف:",
+                    res_conf_label: "نسبة الإصابة / الثقة:",
+                    res_sev_label: "مرحلة أو حدة الإصابة:",
+                    res_rec_label: "إمكانية الإنقاذ والعلاج:",
+                    res_treat_title: "الخطة العلاجية والإرشادات الطبية للمحصول:",
+                    map_btn: "ابحث عن العلاج والمبيدات في أقرب متجر زراعي (Google Maps)",
+                    pdf_btn: "تحميل التقرير الرسمي الشامل (PDF)"
+                },
+                en: {
+                    page_title: "Smart Plant Disease Diagnosis System | Instant Prediction",
+                    sys_name: "Agricultural AI System",
+                    nav_home: "Home", nav_predict: "Predict Plant", nav_dash: "Dashboard", nav_search: "Disease Guide", nav_faq: "FAQ", nav_history: "History",
+                    main_heading: "Instant Plant Leaf Diagnosis with AI",
+                    main_sub: "Upload or paste (Ctrl + V) a clear image of the plant leaf to evaluate its health status and detect pests instantly.",
+                    drop_text: "Drag & drop plant image here, click to browse, or press Ctrl + V to paste",
+                    preview_label: "Selected Image for Diagnosis:",
+                    submit_btn: "Analyze and Diagnose Plant Now",
+                    loading_text: "Evaluating image clarity, central crop, and deep learning analysis...",
+                    report_title: "Certified Smart Agricultural Diagnosis Report",
+                    res_class_label: "Detected Classification & Disease:",
+                    res_conf_label: "Infection Ratio / Confidence:",
+                    res_sev_label: "Infection Severity Stage:",
+                    res_rec_label: "Recoverability & Treatment:",
+                    res_treat_title: "Treatment Plan & Medical Guidelines:",
+                    map_btn: "Find Treatment & Pesticides in Nearest Store (Google Maps)",
+                    pdf_btn: "Download Official Comprehensive Report (PDF)"
+                }
+            };
+
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if(translations[currentLang][key]) el.textContent = translations[currentLang][key];
+            });
+
+            fetchRealWeather();
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('site_lang', currentLang);
+            applyStoredLanguage();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            applyStoredLanguage();
+            fetchRealWeather();
+        });
+    </script>
+</body>
+</html>

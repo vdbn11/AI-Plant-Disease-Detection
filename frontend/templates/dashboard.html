@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang="dash_title">لوحة التحكم الإحصائية المتقدمة | النظام الذكي</title>
+    <!-- استخدام Tailwind CSS للتنسيق المتناسق -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- مكتبة الرسوم البيانية Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- شريط التنقل العلوي -->
+    <header class="bg-emerald-900 text-white shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold flex items-center gap-2">
+                <span>🌱</span> <span data-lang="sys_name">نظام الذكاء الاصطناعي الزراعي</span>
+            </h1>
+            <nav class="flex gap-4 text-sm font-semibold items-center">
+                <a href="/predict_page" class="hover:text-emerald-200 transition" data-lang="nav_predict">فحص نبتة</a>
+                <a href="/dashboard" class="text-emerald-200 underline font-bold" data-lang="nav_dash">لوحة التحكم</a>
+                <a href="/search_page" class="hover:text-emerald-200 transition" data-lang="nav_search">دليل الأمراض</a>
+                <a href="/faq_page" class="hover:text-emerald-200 transition" data-lang="nav_faq">الإرشادات</a>
+                <a href="/history_page" class="hover:text-emerald-200 transition" data-lang="nav_history">السجل</a>
+                <!-- زر تبديل اللغات الفوري -->
+                <button onclick="toggleLanguage()" class="bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-sm">🌐 EN / AR</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container mx-auto px-4 py-10 max-w-6xl flex-grow">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-black text-emerald-900 mb-2" data-lang="dash_heading">📊 لوحة التحكم وإحصائيات الفحوصات التحليلية</h2>
+            <p class="text-slate-500 text-sm" data-lang="dash_sub">تحليل بصري دقيق لحالة محاصيلك، نسب الإصابة، وتوزيع الآفات الفطرية في سجلك الشخصي.</p>
+        </div>
+
+        <!-- بطاقات الملخص السريع -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center">
+                <span class="text-xs text-slate-400 font-bold block mb-1" data-lang="card_total">إجمالي الفحوصات المنفذة</span>
+                <p class="text-3xl font-black text-emerald-900">{{ total_scans }}</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center">
+                <span class="text-xs text-slate-400 font-bold block mb-1" data-lang="card_healthy">الحالات السليمة والصحية 🌿</span>
+                <p class="text-3xl font-black text-emerald-600">{{ healthy_count }}</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center">
+                <span class="text-xs text-slate-400 font-bold block mb-1" data-lang="card_infected">الحالات المُصابة النشطة ⚠️</span>
+                <p class="text-3xl font-black text-rose-600">{{ infected_count }}</p>
+            </div>
+        </div>
+
+        <!-- الرسوم البيانية التفاعلية -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            <!-- الرسم الدائري (سليم مقابل مصاب) -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h3 class="font-bold text-emerald-900 mb-4 text-center" data-lang="chart_ratio_title">نسبة النباتات السليمة مقابل المصابة</h3>
+                <div class="relative h-64 flex justify-center items-center">
+                    <canvas id="healthChart"></canvas>
+                </div>
+            </div>
+            <!-- الرسم العمودي (توزيع الإصابات حسب المحصول) -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h3 class="font-bold text-emerald-900 mb-4 text-center" data-lang="chart_crop_title">توزيع الفحوصات والمحاصيل في السجل</h3>
+                <div class="relative h-64 flex justify-center items-center">
+                    <canvas id="cropChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- التذييل -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400">
+        مشروع التخرج للذكاء الاصطناعي © 2026 - جميع الحقوق محفوظة
+    </footer>
+
+    <!-- سكربت الرسوم البيانية ونظام اللغات الدائم -->
+    <script>
+        const healthyCount = {{ healthy_count }};
+        const infectedCount = {{ infected_count }};
+        const totalScans = {{ total_scans }};
+
+        // إعداد الرسم البياني الأول (الدائري)
+        const labelHealthy = "سليمة وصحية";
+        const labelInfected = "مُصابة وتحتاج متابعة";
+
+        const ctx1 = document.getElementById('healthChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'doughnut',
+            data: {
+                labels: [labelHealthy, labelInfected],
+                datasets: [{
+                    data: [healthyCount, infectedCount],
+                    backgroundColor: ['#059669', '#e11d48'],
+                    borderWidth: 2
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        // إعداد الرسم البياني الثاني (العمودي للمحاصيل)
+        const ctx2 = document.getElementById('cropChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['طماطم', 'بطاطس', 'تفاح', 'عنب', 'أخرى'],
+                datasets: [{
+                    label: 'عدد الفحوصات',
+                    data: [totalScans, 0, 0, 0, 0],
+                    backgroundColor: '#2d6a4f',
+                    borderRadius: 8
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        // نظام تعدد اللغات الشامل والدائم عبر الـ LocalStorage
+        function applyStoredLanguage() {
+            const currentLang = localStorage.getItem('site_lang') || 'ar';
+            const html = document.getElementById('htmlRoot');
+            html.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            html.setAttribute('lang', currentLang);
+
+            const translations = {
+                ar: {
+                    dash_title: "لوحة التحكم الإحصائية المتقدمة | النظام الذكي",
+                    sys_name: "نظام الذكاء الاصطناعي الزراعي",
+                    nav_predict: "فحص نبتة", nav_dash: "لوحة التحكم", nav_search: "دليل الأمراض", nav_faq: "الإرشادات", nav_history: "السجل",
+                    dash_heading: "📊 لوحة التحكم وإحصائيات الفحوصات التحليلية",
+                    dash_sub: "تحليل بصري دقيق لحالة محاصيلك، نسب الإصابة، وتوزيع الآفات الفطرية في سجلك الشخصي.",
+                    card_total: "إجمالي الفحوصات المنفذة",
+                    card_healthy: "الحالات السليمة والصحية 🌿",
+                    card_infected: "الحالات المُصابة النشطة ⚠️",
+                    chart_ratio_title: "نسبة النباتات السليمة مقابل المصابة",
+                    chart_crop_title: "توزيع الفحوصات والمحاصيل في السجل"
+                },
+                en: {
+                    dash_title: "Advanced Analytics Dashboard | Smart System",
+                    sys_name: "Agricultural AI System",
+                    nav_predict: "Predict Plant", nav_dash: "Dashboard", nav_search: "Disease Guide", nav_faq: "FAQ", nav_history: "History",
+                    dash_heading: "📊 Advanced Dashboard & Scan Statistics",
+                    dash_sub: "Precise visual analysis of your crops, infection ratios, and fungal pest distributions.",
+                    card_total: "Total Executed Scans",
+                    card_healthy: "Healthy & Safe 🌿",
+                    card_infected: "Active Infected ⚠️",
+                    chart_ratio_title: "Healthy vs. Infected Ratio",
+                    chart_crop_title: "Crop Scan Distribution in History"
+                }
+            };
+
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if(translations[currentLang][key]) {
+                    el.textContent = translations[currentLang][key];
+                }
+            });
+        }
+
+        function toggleLanguage() {
+            const currentLang = localStorage.getItem('site_lang') || 'ar';
+            const newLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('site_lang', newLang);
+            applyStoredLanguage();
+        }
+
+        // تطبيق اللغة المحفوظة تلقائياً بمجرد فتح الصفحة
+        window.addEventListener('DOMContentLoaded', () => {
+            applyStoredLanguage();
+        });
+    </script>
+</body>
+</html>

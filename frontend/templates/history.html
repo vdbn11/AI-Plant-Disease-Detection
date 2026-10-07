@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang="history_title">سجل الفحوصات السابقة | النظام الذكي</title>
+    <!-- استخدام Tailwind CSS لتنسيق متناسق واحترافي -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- شريط التنقل العلوي -->
+    <header class="bg-emerald-900 text-white shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold flex items-center gap-2">
+                <span>🌱</span> <span data-lang="sys_name">نظام الذكاء الاصطناعي الزراعي</span>
+            </h1>
+            <nav class="flex gap-4 text-sm font-semibold items-center">
+                <a href="/" class="hover:text-emerald-200 transition" data-lang="nav_home">الرئيسية</a>
+                <a href="/predict_page" class="hover:text-emerald-200 transition" data-lang="nav_predict">فحص نبتة</a>
+                <a href="/dashboard" class="hover:text-emerald-200 transition" data-lang="nav_dash">لوحة التحكم</a>
+                <a href="/search_page" class="hover:text-emerald-200 transition" data-lang="nav_search">دليـل الأمراض</a>
+                <a href="/faq_page" class="hover:text-emerald-200 transition" data-lang="nav_faq">الإرشادات</a>
+                <a href="/history_page" class="text-emerald-200 underline font-bold" data-lang="nav_history">السجل</a>
+                <!-- زر تبديل اللغات الفوري -->
+                <button onclick="toggleLanguage()" class="bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-sm">🌐 EN / AR</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container mx-auto px-4 py-10 max-w-5xl flex-grow">
+        <div class="bg-white rounded-3xl shadow-xl p-8 border border-slate-100">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-black text-emerald-900 mb-2 flex items-center justify-center gap-2">
+                    <span>📊</span> <span data-lang="history_heading">سجل الفحوصات والحالات المحفوظة</span>
+                </h2>
+                <p class="text-slate-500 text-sm" data-lang="history_sub">مراجعة كاملة لجميع عمليات التشخيص السابقة المحفوظة في قاعدة بيانات النظام.</p>
+            </div>
+
+            <!-- شريط البحث والفلترة وإجمالي السجلات -->
+            {% if records %}
+            <div class="mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="relative w-full sm:w-72">
+                    <input type="text" id="searchInput" placeholder="ابحث عن مرض أو اسم صورة..." data-lang-placeholder="search_placeholder" class="w-full pr-10 pl-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-emerald-600 transition">
+                    <span class="absolute right-3 top-2.5 text-slate-400">🔍</span>
+                </div>
+                <div class="text-sm font-semibold text-slate-600 bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-100 flex items-center gap-1">
+                    <span data-lang="total_label">إجمالي السجلات:</span> 
+                    <span id="totalRecords" class="text-emerald-800 font-bold">{{ records|length }}</span>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- جدول السجلات -->
+            <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                <table class="w-full text-right border-collapse" id="historyTable">
+                    <thead class="bg-emerald-800 text-white text-sm">
+                        <tr>
+                            <th class="py-3 px-4 text-center" data-lang="th_num">#</th>
+                            <th class="py-3 px-4" data-lang="th_image">اسم الصورة</th>
+                            <th class="py-3 px-4" data-lang="th_disease">المرض المكتشف</th>
+                            <th class="py-3 px-4 text-center" data-lang="th_confidence">نسبة الإصابة / الثقة</th>
+                            <th class="py-3 px-4 text-center" data-lang="th_time">وقت الفحص</th>
+                            <th class="py-3 px-4 text-center" data-lang="th_actions">الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-sm">
+                        {% if records %}
+                            {% for row in records %}
+                            <tr class="hover:bg-slate-50/80 transition search-item">
+                                <td class="py-3 px-4 text-center font-bold text-slate-500">{{ loop.index }}</td>
+                                <td class="py-3 px-4 font-medium text-slate-700">{{ row[1] }}</td>
+                                <td class="py-3 px-4 font-black text-emerald-900">{{ row[2] }}</td>
+                                <td class="py-3 px-4 text-center">
+                                    <span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full text-xs">
+                                        {{ row[3] }}
+                                    </span>
+                                </td>
+                                <td class="py-3 px-4 text-center text-slate-500 text-xs">{{ row[4] }}</td>
+                                <td class="py-3 px-4 text-center">
+                                    <a href="/delete_record/{{ row[0] }}" onclick="return confirm(currentLang === 'en' ? 'Are you sure you want to delete this record?' : 'هل أنت متأكد من حذف هذا السجل؟');" class="text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition text-xs font-semibold" data-lang="delete_btn">
+                                        حذف 🗑️
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center py-10 text-slate-400 font-medium" data-lang="empty_text">
+                                    لا توجد سجلات فحوصات سابقة حتى الآن. ابدأ بفحص نبتة جديدة!
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- التذييل -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400">
+        مشروع التخرج للذكاء الاصطناعي © 2026 - جميع الحقوق محفوظة
+    </footer>
+
+    <!-- سكربت تصفية الجدول واللغات المستمرة -->
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const filter = searchInput.value.toLowerCase();
+                const rows = document.querySelectorAll('#historyTable tbody .search-item');
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    if (text.includes(filter)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // نظام تعدد اللغات الدائم
+        let currentLang = 'ar';
+
+        function applyStoredLanguage() {
+            currentLang = localStorage.getItem('site_lang') || 'ar';
+            const html = document.getElementById('htmlRoot');
+            html.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            html.setAttribute('lang', currentLang);
+
+            const translations = {
+                ar: {
+                    history_title: "سجل الفحوصات السابقة | النظام الذكي",
+                    sys_name: "نظام الذكاء الاصطناعي الزراعي",
+                    nav_home: "الرئيسية", nav_predict: "فحص نبتة", nav_dash: "لوحة التحكم", nav_search: "دليـل الأمراض", nav_faq: "الإرشادات", nav_history: "السجل",
+                    history_heading: "📊 سجل الفحوصات والحالات المحفوظة",
+                    history_sub: "مراجعة كاملة لجميع عمليات التشخيص السابقة المحفوظة في قاعدة بيانات النظام.",
+                    search_placeholder: "ابحث عن مرض أو اسم صورة...",
+                    total_label: "إجمالي السجلات:",
+                    th_num: "#", th_image: "اسم الصورة", th_disease: "المرض المكتشف", th_confidence: "نسبة الإصابة / الثقة", th_time: "وقت الفحص", th_actions: "الإجراءات",
+                    delete_btn: "حذف 🗑️",
+                    empty_text: "لا توجد سجلات فحوصات سابقة حتى الآن. ابدأ بفحص نبتة جديدة!"
+                },
+                en: {
+                    history_title: "Previous Scan History | Smart System",
+                    sys_name: "Agricultural AI System",
+                    nav_home: "Home", nav_predict: "Predict Plant", nav_dash: "Dashboard", nav_search: "Disease Guide", nav_faq: "FAQ", nav_history: "History",
+                    history_heading: "📊 Scan History & Saved Cases",
+                    history_sub: "Complete review of all previous diagnosis records saved in the system database.",
+                    search_placeholder: "Search for disease or image name...",
+                    total_label: "Total Records:",
+                    th_num: "#", th_image: "Image Name", th_disease: "Detected Disease", th_confidence: "Infection / Confidence", th_time: "Scan Time", th_actions: "Actions",
+                    delete_btn: "Delete 🗑️",
+                    empty_text: "No previous scan records yet. Start scanning a new plant!"
+                }
+            };
+
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[currentLang][key]) {
+                    el.textContent = translations[currentLang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-lang-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-lang-placeholder');
+                if (translations[currentLang][key]) {
+                    el.placeholder = translations[currentLang][key];
+                }
+            });
+        }
+
+        function toggleLanguage() {
+            const current = localStorage.getItem('site_lang') || 'ar';
+            const newLang = current === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('site_lang', newLang);
+            applyStoredLanguage();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            applyStoredLanguage();
+        });
+    </script>
+</body>
+</html>

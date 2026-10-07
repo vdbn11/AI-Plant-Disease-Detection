@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - نظام أمراض النباتات</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container" id="container">
+    <!-- نموذج إنشاء حساب جديد -->
+    <div class="form-container sign-up-container">
+        <form action="/register" method="POST">
+            <h1>إنشاء حساب</h1>
+            <input type="text" name="name" placeholder="الاسم" required />
+            <input type="email" name="email" placeholder="البريد الإلكتروني" required />
+            <input type="password" name="password" placeholder="كلمة المرور" required />
+            <button type="submit">تسجيل</button>
+        </form>
+    </div>
+
+    <!-- نموذج تسجيل الدخول -->
+    <div class="form-container sign-in-container">
+        <form action="/login" method="POST">
+            <h1>تسجيل الدخول</h1>
+            <input type="email" name="email" placeholder="البريد الإلكتروني" required />
+            <input type="password" name="password" placeholder="كلمة المرور" required />
+            <a href="#">هل نسيت كلمة المرور؟</a>
+            <button type="submit">دخول</button>
+        </form>
+    </div>
+
+    <!-- اللوحة الجانبية المتحركة -->
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>أهلاً بك مجدداً!</h1>
+                <p>للبقاء على اتصال معنا يرجى تسجيل الدخول باستخدام بياناتك الشخصية</p>
+                <button class="ghost" id="signIn">دخول</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>مرحباً بك!</h1>
+                <p>أدخل بياناتك الشخصية وابدأ رحلتك معنا في الكشف عن أمراض النباتات</p>
+                <button class="ghost" id="signUp">حساب جديد</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang="faq_title">الإرشادات والاستشارات الزراعية الذكية | النظام الذكي</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style> body { font-family: 'Cairo', sans-serif; } </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+    <header class="bg-emerald-900 text-white shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold flex items-center gap-2"><span>🌱</span> <span data-lang="sys_name">نظام الذكاء الاصطناعي الزراعي</span></h1>
+            <nav class="flex gap-4 text-sm font-semibold items-center">
+                <a href="/predict_page" class="hover:text-emerald-200 transition" data-lang="nav_predict">فحص نبتة</a>
+                <a href="/dashboard" class="hover:text-emerald-200 transition" data-lang="nav_dash">لوحة التحكم</a>
+                <a href="/search_page" class="hover:text-emerald-200 transition" data-lang="nav_search">دليل الأمراض</a>
+                <a href="/faq_page" class="text-emerald-200 underline font-bold" data-lang="nav_faq">الإرشادات</a>
+                <a href="/history_page" class="hover:text-emerald-200 transition" data-lang="nav_history">السجل</a>
+                <!-- زر تبديل اللغات الفوري -->
+                <button onclick="toggleLanguage()" class="bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-sm">🌐 EN / AR</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-10 max-w-4xl flex-grow">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-black text-emerald-900 mb-2" data-lang="faq_heading">💡 الإرشادات والاستشارات الزراعية الخبيرة</h2>
+            <p class="text-slate-500 text-sm" data-lang="faq_sub">أفضل الممارسات العلمية والميدانية للري، التسميد المتوازن، والوقاية الاستباقية من الآفات الفطرية.</p>
+        </div>
+
+        <div class="space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-2">
+                <h3 class="text-lg font-black text-emerald-900 flex items-center gap-2"><span>💧</span> <span data-lang="card1_title">1. أوقات وساعات الري المثلى للمحاصيل</span></h3>
+                <p class="text-slate-600 text-sm leading-relaxed" data-lang="card1_text">يُفضل دائماً ري النباتات في الصباح الباكر قبل شروق الشمس. يتيح ذلك للأوراق الجفاف سريعاً ويقلل نمو الأبواغ الفطرية التي تنشط في رطوبة الليل. تجنب الري وقت الظهيرة الحار.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-2">
+                <h3 class="text-lg font-black text-emerald-900 flex items-center gap-2"><span>🛡️</span> <span data-lang="card2_title">2. استراتيجيات التسميد الوقائي المتوازن</span></h3>
+                <p class="text-slate-600 text-sm leading-relaxed" data-lang="card2_text">الالتزام بنسب النيتروجين، الفوسفور، والبوتاسيوم. الإفراط في النيتروجين يضعف جدران خلايا الأوراق ويزيد الإصابة باللفحات، بينما يعزز البوتاسيوم مقاومة النبتة الطبيعية.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-2">
+                <h3 class="text-lg font-black text-emerald-900 flex items-center gap-2"><span>🌡️</span> <span data-lang="card3_title">3. إدارة المناخ الحقلي ومؤشر الخطر</span></h3>
+                <p class="text-slate-600 text-sm leading-relaxed" data-lang="card3_text">مراقبة الرطوبة النسبية ودرجات الحرارة في الحقل؛ حيث تعتبر درجات الحرارة بين 20-25 مئوية مع رطوبة تتجاوز 75% بيئة مثالية لانتشار أمراض اللفحة المتأخرة والمبكرة.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400">
+        مشروع التخرج للذكاء الاصطناعي © 2026 - جميع الحقوق محفوظة
+    </footer>
+
+    <!-- سكربت حفظ وتطبيق اللغة الدائم عبر الـ LocalStorage -->
+    <script>
+        function applyStoredLanguage() {
+            const currentLang = localStorage.getItem('site_lang') || 'ar';
+            const html = document.getElementById('htmlRoot');
+            html.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            html.setAttribute('lang', currentLang);
+
+            const translations = {
+                ar: {
+                    faq_title: "الإرشادات والاستشارات الزراعية الذكية | النظام الذكي",
+                    sys_name: "نظام الذكاء الاصطناعي الزراعي",
+                    nav_predict: "فحص نبتة", nav_dash: "لوحة التحكم", nav_search: "دليل الأمراض", nav_faq: "الإرشادات", nav_history: "السجل",
+                    faq_heading: "💡 الإرشادات والاستشارات الزراعية الخبيرة",
+                    faq_sub: "أفضل الممارسات العلمية والميدانية للري، التسميد المتوازن، والوقاية الاستباقية من الآفات الفطرية.",
+                    card1_title: "1. أوقات وساعات الري المثلى للمحاصيل",
+                    card1_text: "يُفضل دائماً ري النباتات في الصباح الباكر قبل شروق الشمس. يتيح ذلك للأوراق الجفاف سريعاً ويقلل نمو الأبواغ الفطرية التي تنشط في رطوبة الليل. تجنب الري وقت الظهيرة الحار.",
+                    card2_title: "2. استراتيجيات التسميد الوقائي المتوازن",
+                    card2_text: "الالتزام بنسب النيتروجين، الفوسفور، والبوتاسيوم. الإفراط في النيتروجين يضعف جدران خلايا الأوراق ويزيد الإصابة باللفحات، بينما يعزز البوتاسيوم مقاومة النبتة الطبيعية.",
+                    card3_title: "3. إدارة المناخ الحقلي ومؤشر الخطر",
+                    card3_text: "مراقبة الرطوبة النسبية ودرجات الحرارة في الحقل؛ حيث تعتبر درجات الحرارة بين 20-25 مئوية مع رطوبة تتجاوز 75% بيئة مثالية لانتشار أمراض اللفحة المتأخرة والمبكرة."
+                },
+                en: {
+                    faq_title: "Smart Agricultural Guidelines & Expert Advice | Smart System",
+                    sys_name: "Agricultural AI System",
+                    nav_predict: "Predict Plant", nav_dash: "Dashboard", nav_search: "Disease Guide", nav_faq: "FAQ", nav_history: "History",
+                    faq_heading: "💡 Expert Agricultural Guidelines & Advice",
+                    faq_sub: "Best scientific and field practices for irrigation, balanced fertilization, and proactive fungal pest prevention.",
+                    card1_title: "1. Optimal Irrigation Times & Hours for Crops",
+                    card1_text: "It is always preferred to irrigate plants early in the morning before sunrise. This allows leaves to dry quickly and reduces fungal spore growth active in night humidity. Avoid watering during hot midday.",
+                    card2_title: "2. Balanced Preventive Fertilization Strategies",
+                    card2_text: "Adhering to nitrogen, phosphorus, and potassium ratios. Excess nitrogen weakens leaf cell walls and increases blight infections, while potassium enhances natural plant resistance.",
+                    card3_title: "3. Field Climate Management & Risk Index",
+                    card3_text: "Monitoring relative humidity and temperatures in the field; temperatures between 20-25°C with humidity exceeding 75% are ideal environments for late and early blight spread."
+                }
+            };
+
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[currentLang][key]) {
+                    el.textContent = translations[currentLang][key];
+                }
+            });
+        }
+
+        function toggleLanguage() {
+            const currentLang = localStorage.getItem('site_lang') || 'ar';
+            const newLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('site_lang', newLang);
+            applyStoredLanguage();
+        }
+
+        // تطبيق اللغة المحفوظة تلقائياً بمجرد فتح الصفحة
+        window.addEventListener('DOMContentLoaded', () => {
+            applyStoredLanguage();
+        });
+    </script>
+</body>
+</html>
