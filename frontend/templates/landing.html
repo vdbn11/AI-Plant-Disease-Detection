@@ -1,763 +1,141 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" id="htmlRoot">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-lang="page_title">الرئيسية - النظام الذكي لتشخيص أمراض النباتات | مشروع تخرج</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
-        
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Tajawal', sans-serif; 
-        }
-
-        body { 
-            background-color: #f8fafc; 
-            color: #1e293b; 
-            line-height: 1.8; 
-            overflow-x: hidden; 
-        }
-
-        /* شريط التنقل */
-        header { 
-            background: #1b4332; 
-            color: white; 
-            padding: 20px 50px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-        }
-
-        header h1 { 
-            font-size: 24px; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            font-weight: 900; 
-            letter-spacing: -0.5px; 
-        }
-
-        header h1 a {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: opacity 0.3s ease;
-        }
-
-        header h1 a:hover {
-            opacity: 0.85;
-        }
-
-        .nav-btns { 
-            display: flex; 
-            align-items: center; 
-            gap: 15px; 
-        }
-
-        .nav-btns a { 
-            color: white; 
-            text-decoration: none; 
-            background: #2d6a4f; 
-            padding: 10px 22px; 
-            border-radius: 10px; 
-            font-weight: 700; 
-            font-size: 14px; 
-            transition: all 0.3s ease; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-        }
-
-        .nav-btns a:hover { 
-            background: #52b788; 
-            color: #1b4332; 
-            transform: translateY(-2px); 
-        }
-
-        .nav-btns .logout-btn { 
-            background: #dc2626; 
-        }
-
-        .nav-btns .logout-btn:hover { 
-            background: #b91c1c; 
-            color: white; 
-        }
-
-        .lang-btn { 
-            background: #52b788; 
-            color: #081c15; 
-            border: none; 
-            padding: 10px 18px; 
-            border-radius: 10px; 
-            font-weight: 800; 
-            font-size: 13px; 
-            cursor: pointer; 
-            transition: all 0.3s ease; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-        }
-
-        .lang-btn:hover { 
-            background: #ffffff; 
-            transform: translateY(-2px); 
-        }
-
-        /* الهيرو الرئيسي */
-        .hero { 
-            background: linear-gradient(135deg, #081c15, #1b4332, #2d6a4f); 
-            color: white; 
-            text-align: center; 
-            padding: 100px 20px; 
-            position: relative; 
-            clip-path: ellipse(150% 100% at 50% 0%); 
-        }
-
-        .hero-badge { 
-            display: inline-block; 
-            background: rgba(82, 183, 136, 0.2); 
-            color: #52b788; 
-            border: 1px solid #52b788; 
-            padding: 6px 18px; 
-            border-radius: 50px; 
-            font-size: 13px; 
-            font-weight: 700; 
-            margin-bottom: 25px; 
-            letter-spacing: 0.5px; 
-        }
-
-        .hero h2 { 
-            font-size: 44px; 
-            margin-bottom: 20px; 
-            font-weight: 900; 
-            line-height: 1.3; 
-        }
-
-        .hero h2 span { 
-            color: #52b788; 
-        }
-
-        .hero p { 
-            font-size: 18px; 
-            max-width: 750px; 
-            margin: 0 auto 35px; 
-            opacity: 0.92; 
-            line-height: 1.9; 
-        }
-
-        .cta-btn { 
-            display: inline-block; 
-            background: #52b788; 
-            color: #081c15; 
-            padding: 16px 40px; 
-            font-size: 18px; 
-            font-weight: 900; 
-            border-radius: 35px; 
-            text-decoration: none; 
-            box-shadow: 0 6px 20px rgba(82, 183, 136, 0.4); 
-            transition: all 0.3s ease; 
-        }
-
-        .cta-btn:hover { 
-            background: #ffffff; 
-            color: #1b4332; 
-            transform: translateY(-4px); 
-            box-shadow: 0 10px 25px rgba(255,255,255,0.3); 
-        }
-
-        .cta-btn-secondary { 
-            display: inline-block; 
-            background: transparent; 
-            color: white; 
-            border: 2px solid #52b788; 
-            padding: 14px 35px; 
-            font-size: 17px; 
-            font-weight: 700; 
-            border-radius: 35px; 
-            text-decoration: none; 
-            transition: all 0.3s ease; 
-            margin-right: 15px; 
-        }
-
-        .cta-btn-secondary:hover { 
-            background: rgba(82, 183, 136, 0.15); 
-            transform: translateY(-3px); 
-        }
-
-        /* شريط الإحصائيات والأرقام */
-        .stats-section { 
-            background: white; 
-            max-width: 1150px; 
-            margin: -40px auto 60px; 
-            padding: 40px 30px; 
-            border-radius: 20px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08); 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
-            gap: 30px; 
-            text-align: center; 
-            position: relative; 
-            z-index: 10; 
-            border-bottom: 5px solid #2d6a4f; 
-        }
-
-        .stat-item h3 { 
-            font-size: 36px; 
-            font-weight: 900; 
-            color: #1b4332; 
-            margin-bottom: 5px; 
-        }
-
-        .stat-item p { 
-            font-size: 14px; 
-            color: #64748b; 
-            font-weight: 700; 
-        }
-
-        /* الحاويات والمميزات */
-        .container { 
-            max-width: 1150px; 
-            margin: 0 auto 60px; 
-            padding: 0 20px; 
-        }
-
-        .section-header { 
-            text-align: center; 
-            margin-bottom: 45px; 
-        }
-
-        .section-header span { 
-            color: #2d6a4f; 
-            font-weight: 800; 
-            font-size: 14px; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            display: block; 
-            margin-bottom: 8px; 
-        }
-
-        .section-header h3 { 
-            font-size: 32px; 
-            font-weight: 900; 
-            color: #1b4332; 
-        }
-
-        .features-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); 
-            gap: 30px; 
-        }
-
-        .card { 
-            background: white; 
-            padding: 40px 35px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04); 
-            border-top: 5px solid #2d6a4f; 
-            transition: all 0.3s ease; 
-            position: relative; 
-            overflow: hidden; 
-        }
-
-        .card:hover { 
-            transform: translateY(-8px); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08); 
-        }
-
-        .card-icon { 
-            width: 60px; 
-            height: 60px; 
-            background: #d8f3dc; 
-            color: #1b4332; 
-            border-radius: 15px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 26px; 
-            margin-bottom: 20px; 
-            font-weight: bold; 
-        }
-
-        .card h3 { 
-            color: #1b4332; 
-            font-size: 22px; 
-            margin-bottom: 12px; 
-            font-weight: 800; 
-        }
-
-        .card p { 
-            color: #475569; 
-            font-size: 15px; 
-            line-height: 1.7; 
-        }
-
-        /* قسم التقنيات والهندسة المستخدمة (Tech Stack) */
-        .tech-section { 
-            background: #1b4332; 
-            color: white; 
-            padding: 70px 20px; 
-            margin: 60px 0; 
-            text-align: center; 
-        }
-
-        .tech-grid { 
-            max-width: 1100px; 
-            margin: 40px auto 0; 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
-            gap: 25px; 
-        }
-
-        .tech-card { 
-            background: rgba(255, 255, 255, 0.08); 
-            border: 1px solid rgba(255, 255, 255, 0.15); 
-            padding: 30px 20px; 
-            border-radius: 16px; 
-            transition: 0.3s; 
-        }
-
-        .tech-card:hover { 
-            background: rgba(255, 255, 255, 0.15); 
-            transform: translateY(-5px); 
-        }
-
-        .tech-card h4 { 
-            font-size: 20px; 
-            font-weight: 800; 
-            color: #52b788; 
-            margin-bottom: 8px; 
-        }
-
-        .tech-card p { 
-            font-size: 13px; 
-            color: #cbd5e1; 
-        }
-
-        /* قسم خطوات العمل (Workflow) */
-        .workflow-steps { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-            gap: 25px; 
-            margin-top: 40px; 
-        }
-
-        .step-box { 
-            background: white; 
-            padding: 30px; 
-            border-radius: 16px; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.04); 
-            position: relative; 
-            border-right: 4px solid #52b788; 
-        }
-
-        .step-number { 
-            font-size: 32px; 
-            font-weight: 900; 
-            color: #52b788; 
-            margin-bottom: 10px; 
-            display: block; 
-        }
-
-        .step-box h4 { 
-            font-size: 18px; 
-            font-weight: 800; 
-            color: #1b4332; 
-            margin-bottom: 8px; 
-        }
-
-        .step-box p { 
-            font-size: 14px; 
-            color: #64748b; 
-        }
-
-        /* الشرح التفصيلي وعن المشروع */
-        .details-section { 
-            background: white; 
-            margin: 60px auto; 
-            max-width: 1150px; 
-            padding: 60px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-            border-left: 6px solid #2d6a4f; 
-        }
-
-        .details-section h2 { 
-            color: #1b4332; 
-            font-size: 30px; 
-            margin-bottom: 25px; 
-            font-weight: 900; 
-        }
-
-        .details-section p { 
-            color: #334155; 
-            font-size: 16px; 
-            margin-bottom: 20px; 
-            text-align: justify; 
-            line-height: 1.9; 
-        }
-
-        /* التذييل الفاخر */
-        footer { 
-            background: #081c15; 
-            color: #94a3b8; 
-            text-align: center; 
-            padding: 40px 20px; 
-            font-size: 14px; 
-            margin-top: 80px; 
-            border-top: 1px solid #1b4332; 
-        }
-
-        footer p span { 
-            color: #52b788; 
-            font-weight: bold; 
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlantDiseaseAI — النظام الذكي لتشخيص أمراض النباتات</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Cairo',sans-serif;background:#f6faf8;color:#0f172a}
+  .hero-bg{background:radial-gradient(900px 380px at 15% -10%, #34d39933, transparent),radial-gradient(700px 300px at 90% 0%, #0ea5e933, transparent),linear-gradient(135deg,#04231f 0%,#073b32 45%,#0b6b57 100%)}
+  .glass{background:rgba(255,255,255,.07);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14)}
+  .card-hover{transition:.28s ease}
+  .card-hover:hover{transform:translateY(-6px);box-shadow:0 24px 50px -22px rgba(6,95,70,.5)}
+  .float{animation:fl 7s ease-in-out infinite}
+  @keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .reveal{opacity:0;transform:translateY(18px);animation:rv .8s forwards}
+  @keyframes rv{to{opacity:1;transform:none}}
+</style>
 </head>
-<body>
+<body class="min-h-screen">
 
-    <!-- شريط التنقل العلوي الديناميكي -->
-    <header>
-        <h1>
-            <a href="/">
-                <span>🌱</span> <span data-lang="sys_name">نظام الذكاء الاصطناعي الزراعي</span>
-            </a>
-        </h1>
-        <div class="nav-btns">
-            {% if session.get('user_id') %}
-                <span style="color: #a7f3d0; font-weight: 800; font-size: 14px; background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 8px;" data-lang="welcome_msg">مرحباً، {{ session.get('user_name', 'مستخدم') }} 👤</span>
-                <a href="/predict_page" data-lang="nav_predict">فحص نبتة</a>
-                <a href="/dashboard" data-lang="nav_dash">لوحة التحكم</a>
-                <a href="/search_page" data-lang="nav_search">دليل الأمراض</a>
-                <a href="/faq_page" data-lang="nav_faq">الإرشادات</a>
-                <a href="/history_page" data-lang="nav_history">السجل</a>
-                <a href="/logout" class="logout-btn" data-lang="nav_logout">تسجيل خروج</a>
-            {% else %}
-                <a href="/login_page" data-lang="nav_login">تسجيل الدخول / إنشاء حساب</a>
-            {% endif %}
-            <button onclick="toggleLanguage()" class="lang-btn">🌐 EN / AR</button>
-        </div>
-    </header>
+<nav class="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-emerald-100">
+  <div class="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2.5 font-black text-emerald-900 text-lg">
+      <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white grid place-items-center">🌿</span>
+      PlantDiseaseAI
+    </a>
+    <div class="hidden md:flex items-center gap-1 text-sm font-bold text-slate-600">
+      <a href="/guide_page" class="px-3 py-2 rounded-lg hover:bg-emerald-50 hover:text-emerald-800">دليل الأمراض</a>
+      <a href="/login_page" class="px-3 py-2 rounded-lg hover:bg-emerald-50 hover:text-emerald-800">تسجيل الدخول</a>
+      <a href="/login_page" class="mr-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-600/20">ابدأ الفحص</a>
+    </div>
+  </div>
+</nav>
 
-    <!-- الهيرو الترحيبي -->
-    <section class="hero">
-        <span class="hero-badge" data-lang="hero_badge">🚀 مشروع تخرج أكاديمي متقدم في الأمن الغذائي والذكاء الاصطناعي</span>
-        <h2 data-lang="hero_title">اكتشف أمراض النباتات بدقة فائقة <br><span>باستخدام خوارزميات التعلم العميق</span></h2>
-        <p data-lang="hero_desc">نظام ذكي متكامل مصمم خصيصاً لمساعدة المزارعين والمهندسين الزراعيين على تشخيص آفات وأمراض المحاصيل عبر صور الأوراق فوراً، مع تحديد نسب الإصابة وخطط العلاج والخرائط التوجيهية بدقة مذهلة.</p>
-        <div>
-            {% if session.get('user_id') %}
-                <a href="/predict_page" class="cta-btn" data-lang="cta_predict">الذهاب إلى صفحة الفحص المباشر 🌿</a>
-                <a href="/search_page" class="cta-btn-secondary" data-lang="cta_search">تصفح دليل الأمراض 📖</a>
-            {% else %}
-                <a href="/login_page" class="cta-btn" data-lang="cta_login">سجل دخول لتجربة النظام الآن 🚀</a>
-                <a href="/search_page" class="cta-btn-secondary" data-lang="cta_search">استكشف دليل الأمراض 📖</a>
-            {% endif %}
-        </div>
-    </section>
-
-    <!-- شريط الإحصائيات -->
-    <div class="stats-section">
-        <div class="stat-item">
-            <h3>98.5%</h3>
-            <p data-lang="stat1_desc">دقة تشخيص نموذج التعلم العميق</p>
-        </div>
-        <div class="stat-item">
-            <h3 data-lang="stat2_val">&lt; 3 ثوانٍ</h3>
-            <p data-lang="stat2_desc">سرعة الفحص ومعالجة الصورة</p>
-        </div>
-        <div class="stat-item">
-            <h3 data-lang="stat3_val">محاصيل متعددة</h3>
-            <p data-lang="stat3_desc">طماطم، بطاطس، تفاح، عنب، ذرة...</p>
-        </div>
-        <div class="stat-item">
-            <h3>100%</h3>
-            <p data-lang="stat4_desc">تقارير PDF رسمية قابلة للتحميل</p>
-        </div>
+<header class="hero-bg text-white">
+  <div class="max-w-7xl mx-auto px-5 py-16 md:py-24 grid lg:grid-cols-2 gap-12 items-center">
+    <div class="reveal">
+      <span class="glass inline-flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full text-emerald-100">
+        ✨ ذكاء اصطناعي · 43 حالة مرضية · 17 محصولاً
+      </span>
+      <h1 class="text-4xl md:text-6xl font-black leading-tight mt-5">
+        شخّص مرض نبتتك<br><span class="text-emerald-300">بصورة واحدة</span>
+      </h1>
+      <p class="mt-5 text-emerald-100/85 text-lg leading-relaxed max-w-xl">
+        ارفع صورة ورقة النبتة، ويحللها النموذج فوراً ليخبرك بالمرض المحتمل ونسبة الثقة وخطة العلاج، ويحفظ النتيجة في سجلك للمتابعة.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/login_page" class="px-7 py-3.5 rounded-xl bg-white text-emerald-900 font-black hover:bg-emerald-50 transition shadow-xl">ابدأ الفحص الآن</a>
+        <a href="/guide_page" class="px-7 py-3.5 rounded-xl glass font-bold hover:bg-white/15 transition">تصفح دليل الأمراض</a>
+      </div>
+      <div class="mt-8 flex gap-6 text-sm text-emerald-100/80">
+        <div><b class="block text-2xl text-white">96,859</b> صورة تدريب</div>
+        <div><b class="block text-2xl text-white">43</b> صنف</div>
+        <div><b class="block text-2xl text-white">TOP-3</b> دقة عالية</div>
+      </div>
     </div>
 
-    <!-- قسم المزايا والخصائص الأساسية -->
-    <div class="container">
-        <div class="section-header">
-            <span data-lang="features_tag">خصائص متطورة</span>
-            <h3 data-lang="features_heading">لماذا يعتبر هذا النظام أداة ثورية في الزراعة الذكية؟</h3>
+    <div class="relative float">
+      <div class="glass rounded-3xl p-4 shadow-2xl">
+        <div class="grid grid-cols-2 gap-3">
+          <figure class="rounded-2xl overflow-hidden bg-white/5">
+            <img src="/static/guide/Apple__Apple_scab__before.jpg" alt="قبل" class="w-full h-44 object-cover">
+            <figcaption class="text-center text-xs font-bold py-2 text-emerald-200">ورقة سليمة</figcaption>
+          </figure>
+          <figure class="rounded-2xl overflow-hidden bg-white/5">
+            <img src="/static/guide/Apple__Apple_scab__diseased.jpg" alt="بعد" class="w-full h-44 object-cover">
+            <figcaption class="text-center text-xs font-bold py-2 text-rose-200">بعد الإصابة</figcaption>
+          </figure>
         </div>
-        <div class="features-grid">
-            <div class="card">
-                <div class="card-icon">⚡</div>
-                <h3 data-lang="card1_title">تشخيص فوري وعميق</h3>
-                <p data-lang="card1_desc">يستطيع النظام تحليل صورة ورقة النبتة خلال ثوانٍ معدودة باستخدام شبكات عصبية تلافيفة متطورة (CNN) لتحديد نوع المرض بدقة متناهية.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🛡️</div>
-                <h3 data-lang="card2_title">فحص وضوح وسلامة الصورة</h3>
-                <p data-lang="card2_desc">يحتوي النظام على خوارزميات رؤية حاسوبية (OpenCV) لاكتشاف الصور الضبابية أو التالفة، وتقييم مركز الورقة لتجنب الأخطاء التشخيصية تماماً.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">📊</div>
-                <h3 data-lang="card3_title">سجل فحوصات مستقل وآمن</h3>
-                <p data-lang="card3_desc">كل مستخدم لديه حساب خاص وسجل مشفر ومحفوظ في قاعدة بيانات SQLite، مع إمكانية مراجعة الفحوصات السابقة، البحث داخلها، أو حذفها.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">💊</div>
-                <h3 data-lang="card4_title">خطط علاجية وإرشادية</h3>
-                <p data-lang="card4_desc">إلى جانب التشخيص، يزود النظام المستخدم بتوصيات علاجية دقيقة، ومقترحات للمبيدات، وروابط مباشرة لخرائط جوجل لإيجاد المتاجر الزراعية القريبة.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">📋</div>
-                <h3 data-lang="card5_title">تصدير التقارير كملف PDF</h3>
-                <p data-lang="card5_desc">إمكانية توليد وتنزيل تقرير تشخيص رسمي مفصل بصيغة PDF فور انتهاء الفحص بضغطة زر واحدة لتسليمه أو طباعته للمختصين.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🔍</div>
-                <h3 data-lang="card6_title">دليل أمراض شامل وفوري</h3>
-                <p data-lang="card6_desc">محرك بحث متقدم مدعوم بفلترة سريعة حسب نوع المحصول والمرض للوصول الفوري إلى آلاف البيانات والمعلومات الإرشادية.</p>
-            </div>
+        <div class="mt-3 bg-white/10 rounded-2xl p-3 text-sm">
+          <div class="flex justify-between font-bold"><span>الجرب التفاحي</span><span class="text-emerald-300">تفاح</span></div>
+          <div class="mt-2 h-2 rounded-full bg-white/15 overflow-hidden"><div class="h-full w-[86%] bg-gradient-to-r from-emerald-400 to-teal-300"></div></div>
+          <div class="text-xs text-emerald-100/70 mt-1">نسبة الثقة 86%</div>
         </div>
+      </div>
     </div>
+  </div>
+</header>
 
-    <!-- قسم التقنيات البرمجية المستخدمة -->
-    <section class="tech-section">
-        <div class="section-header" style="margin-bottom: 20px;">
-            <span style="color: #52b788;" data-lang="tech_tag">البنية الهندسية والتقنية</span>
-            <h3 style="color: white;" data-lang="tech_heading">التقنيات الحديثة المستخدمة في تطوير المشروع</h3>
-        </div>
-        <p style="color: #cbd5e1; max-width: 650px; margin: 0 auto 30px; font-size: 15px;" data-lang="tech_sub">تم بناء هذا المشروع وفق أحدث المعايير البرمجية والأكاديمية لضمان أعلى أداء واستقرار تام.</p>
-        <div class="tech-grid">
-            <div class="tech-card">
-                <h4 data-lang="tech1_title">Flask Framework</h4>
-                <p data-lang="tech1_desc">خلفية برمجية سريعة وآمنة لإدارة الجلسات، التوجيه، ومعالجة الطلبات.</p>
-            </div>
-            <div class="tech-card">
-                <h4 data-lang="tech2_title">TensorFlow / Keras</h4>
-                <p data-lang="tech2_desc">محرك الذكاء الاصطناعي والتعلم العميق لتحليل الصور بدقة.</p>
-            </div>
-            <div class="tech-card">
-                <h4 data-lang="tech3_title">OpenCV Python</h4>
-                <p data-lang="tech3_desc">معالجة الصور الرقمية، فحص الوضوح، والقص المركزي الذكي (ROI).</p>
-            </div>
-            <div class="tech-card">
-                <h4 data-lang="tech4_title">SQLite3 Database</h4>
-                <p data-lang="tech4_desc">تخزين آمن وموثوق لبيانات المستخدمين وسجلات التشخيص.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- قسم خطوات العمل (Workflow) -->
-    <div class="container">
-        <div class="section-header">
-            <span data-lang="workflow_tag">آلية التشغيل</span>
-            <h3 data-lang="workflow_heading">كيف تستخدم النظام للحصول على نتائج دقيقة؟</h3>
-        </div>
-        <div class="workflow-steps">
-            <div class="step-box">
-                <span class="step-number">01</span>
-                <h4 data-lang="step1_title">إنشاء حساب أو تسجيل الدخول</h4>
-                <p data-lang="step1_desc">سجل حسابك المجاني في النظام لضمان حفظ سجل فحوصاتك وتقاريرك الشخصية في بيئة آمنة خاصة بك.</p>
-            </div>
-            <div class="step-box">
-                <span class="step-number">02</span>
-                <h4 data-lang="step2_title">رفع أو لصق صورة النبتة</h4>
-                <p data-lang="step2_desc">قم باختيار صورة لورقة النبات المصابة من جهازك، أو الصقها مباشرة باستخدام اختصار (Ctrl + V).</p>
-            </div>
-            <div class="step-box">
-                <span class="step-number">03</span>
-                <h4 data-lang="step3_title">التحليل الفوري بالذكاء الاصطناعي</h4>
-                <p data-lang="step3_desc">يفحص النظام وضوح الصورة ومحتواها النباتي، ثم يمررها لنموذج التعلم العميق لاكتشاف الإصابة بنسبة الثقة.</p>
-            </div>
-            <div class="step-box">
-                <span class="step-number">04</span>
-                <h4 data-lang="step4_title">الحصول على التقرير والعلاج</h4>
-                <p data-lang="step4_desc">تعرف على حالة الإصابة، خطة المكافحة، قم بتحميل تقرير الـ PDF أو ابحث عن أقرب متجر زراعي.</p>
-            </div>
-        </div>
+<section class="max-w-7xl mx-auto px-5 -mt-10 relative z-10">
+  <div class="grid md:grid-cols-4 gap-4">
+    <div class="card-hover bg-white rounded-2xl border border-emerald-100 p-5 shadow-sm">
+      <div class="w-11 h-11 rounded-xl bg-emerald-50 grid place-items-center text-xl">🔬</div>
+      <h3 class="font-black mt-3">تشخيص فوري</h3>
+      <p class="text-sm text-slate-500 mt-1">تحليل الصورة ونتيجة واضحة مع نسبة الثقة.</p>
     </div>
+    <div class="card-hover bg-white rounded-2xl border border-emerald-100 p-5 shadow-sm">
+      <div class="w-11 h-11 rounded-xl bg-teal-50 grid place-items-center text-xl">📖</div>
+      <h3 class="font-black mt-3">دليل الأمراض</h3>
+      <p class="text-sm text-slate-500 mt-1">صور قبل وبعد + الأعراض والعلاج والوقاية.</p>
+    </div>
+    <div class="card-hover bg-white rounded-2xl border border-emerald-100 p-5 shadow-sm">
+      <div class="w-11 h-11 rounded-xl bg-lime-50 grid place-items-center text-xl">🗂️</div>
+      <h3 class="font-black mt-3">سجل الفحوصات</h3>
+      <p class="text-sm text-slate-500 mt-1">كل فحص محفوظ للمتابعة أسبوعاً بأسبوع.</p>
+    </div>
+    <div class="card-hover bg-white rounded-2xl border border-emerald-100 p-5 shadow-sm">
+      <div class="w-11 h-11 rounded-xl bg-sky-50 grid place-items-center text-xl">📊</div>
+      <h3 class="font-black mt-3">لوحة التحكم</h3>
+      <p class="text-sm text-slate-500 mt-1">إحصاءات نباتاتك السليمة والمصابة.</p>
+    </div>
+  </div>
+</section>
 
-    <!-- قسم الشرح التفصيلي وعن المشروع -->
-    <section class="details-section">
-        <h2 data-lang="details_heading">عن المشروع وأهدافه الأكاديمية</h2>
-        <p data-lang="details_p1">يعتبر هذا النظام ثمرة مشروع تخرج متكامل يهدف إلى سد الفجوة بين التكنولوجيا الحديثة والقطاع الزراعي. يعتمد على دمج تقنيات الذكاء الاصطناعي، تعلم الآلة، ورؤية الكمبيوتر (Computer Vision) لاكتشاف آفات وأمراض النباتات في مراحلها المبكرة قبل تفاقمها وانتشارها في الحقول.</p>
-        <p><strong data-lang="details_strong">الأهمية الاستراتيجية:</strong> <span data-lang="details_p2">نظراً لارتباط الأمن الغذائي ارتباطاً وثيقاً بسلامة المحاصيل الزراعية، يوفر هذا التطبيق أداة تشخيص سريعة وبديلة للاستشارات الميدانية المكلفة، مما يسهم بشكل مباشر في تقليل الخسائر الاقتصادية للمزارعين ورفع كفاءة الإنتاج النباتي المستدام.</span></p>
-        <div style="text-align: center; margin-top: 35px;">
-            {% if session.get('user_id') %}
-                <a href="/predict_page" class="cta-btn" style="padding: 14px 35px; font-size: 16px;" data-lang="cta_predict">الانتقال لصفحة الفحص الآن 🌿</a>
-            {% else %}
-                <a href="/login_page" class="cta-btn" style="padding: 14px 35px; font-size: 16px;" data-lang="cta_login_bottom">ابدأ الآن وأنشئ حسابك المجاني 🚀</a>
-            {% endif %}
-        </div>
-    </section>
+<section class="max-w-7xl mx-auto px-5 py-16">
+  <div class="grid lg:grid-cols-2 gap-10 items-center">
+    <div>
+      <h2 class="text-3xl font-black text-emerald-950">كيف يعمل النظام؟</h2>
+      <p class="text-slate-500 mt-2">ثلاث خطوات بسيطة من الصورة إلى خطة العلاج.</p>
+      <ol class="mt-6 space-y-4">
+        <li class="flex gap-4"><span class="w-10 h-10 shrink-0 rounded-xl bg-emerald-600 text-white grid place-items-center font-black">1</span>
+          <div><b>ارفع صورة الورقة</b><p class="text-sm text-slate-500">صورة واضحة لورقة واحدة بأفضل إضاءة.</p></div></li>
+        <li class="flex gap-4"><span class="w-10 h-10 shrink-0 rounded-xl bg-emerald-600 text-white grid place-items-center font-black">2</span>
+          <div><b>يحلل النموذج الصورة</b><p class="text-sm text-slate-500">يتم فحص جودة الصورة ثم تحديد المرض وأقرب الاحتمالات.</p></div></li>
+        <li class="flex gap-4"><span class="w-10 h-10 shrink-0 rounded-xl bg-emerald-600 text-white grid place-items-center font-black">3</span>
+          <div><b>تظهر النتيجة والعلاج</b><p class="text-sm text-slate-500">وتُحفظ تلقائياً في سجلك للمتابعة.</p></div></li>
+      </ol>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <img src="/static/guide/Apple__Black_rot__diseased.jpg" class="rounded-2xl h-56 w-full object-cover shadow-lg" alt="">
+      <img src="/static/guide/Apple__Black_rot__before.jpg" class="rounded-2xl h-56 w-full object-cover shadow-lg mt-8" alt="">
+    </div>
+  </div>
+</section>
 
-    <!-- التذييل -->
-    <footer>
-        <p data-lang="footer_text">مشروع التخرج للذكاء الاصطناعي والزراعة الذكية <span>© 2026</span> - جميع الحقوق محفوظة</p>
-    </footer>
+<section class="max-w-7xl mx-auto px-5 pb-20">
+  <div class="hero-bg rounded-3xl px-8 py-12 text-center text-white">
+    <h2 class="text-3xl font-black">جاهز تفحص نبتتك؟</h2>
+    <p class="text-emerald-100/80 mt-2">سجّل دخولك وابدأ بأول فحص مجاناً.</p>
+    <a href="/login_page" class="inline-block mt-6 px-8 py-3.5 rounded-xl bg-white text-emerald-900 font-black shadow-xl hover:bg-emerald-50">تسجيل الدخول / إنشاء حساب</a>
+  </div>
+</section>
 
-    <!-- سكربت حفظ وتطبيق اللغة الدائم -->
-    <script>
-        function applyStoredLanguage() {
-            const currentLang = localStorage.getItem('site_lang') || 'ar';
-            const html = document.getElementById('htmlRoot');
-            html.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-            html.setAttribute('lang', currentLang);
+<footer class="border-t border-emerald-100 py-8 text-center text-xs text-slate-400">
+  PlantDiseaseAI · مشروع تخرج — جامعة المجمعة
+</footer>
 
-            const translations = {
-                ar: {
-                    page_title: "الرئيسية - النظام الذكي لتشخيص أمراض النباتات | مشروع تخرج",
-                    sys_name: "نظام الذكاء الاصطناعي الزراعي",
-                    welcome_msg: "مرحباً، {{ session.get('user_name', 'مستخدم') }} 👤",
-                    nav_predict: "فحص نبتة",
-                    nav_dash: "لوحة التحكم",
-                    nav_search: "دليل الأمراض",
-                    nav_faq: "الإرشادات",
-                    nav_history: "السجل",
-                    nav_logout: "تسجيل خروج",
-                    nav_login: "تسجيل الدخول / إنشاء حساب",
-                    hero_badge: "🚀 مشروع تخرج أكاديمي متقدم في الأمن الغذائي والذكاء الاصطناعي",
-                    hero_title: "اكتشف أمراض النباتات بدقة فائقة <br><span>باستخدام خوارزميات التعلم العميق</span>",
-                    hero_desc: "نظام ذكي متكامل مصمم خصيصاً لمساعدة المزارعين والمهندسين الزراعيين على تشخيص آفات وأمراض المحاصيل عبر صور الأوراق فوراً، مع تحديد نسب الإصابة وخطط العلاج والخرائط التوجيهية بدقة مذهلة.",
-                    cta_predict: "الذهاب إلى صفحة الفحص المباشر 🌿",
-                    cta_search: "تصفح دليل الأمراض 📖",
-                    cta_login: "سجل دخول لتجربة النظام الآن 🚀",
-                    stat1_desc: "دقة تشخيص نموذج التعلم العميق",
-                    stat2_val: "&lt; 3 ثوانٍ",
-                    stat2_desc: "سرعة الفحص ومعالجة الصورة",
-                    stat3_val: "محاصيل متعددة",
-                    stat3_desc: "طماطم، بطاطس، تفاح، عنب، ذرة...",
-                    stat4_desc: "تقارير PDF رسمية قابلة للتحميل",
-                    features_tag: "خصائص متطورة",
-                    features_heading: "لماذا يعتبر هذا النظام أداة ثورية في الزراعة الذكية؟",
-                    card1_title: "تشخيص فوري وعميق",
-                    card1_desc: "يستطيع النظام تحليل صورة ورقة النبتة خلال ثوانٍ معدودة باستخدام شبكات عصبية تلافيفة متطورة (CNN) لتحديد نوع المرض بدقة متناهية.",
-                    card2_title: "فحص وضوح وسلامة الصورة",
-                    card2_desc: "يحتوي النظام على خوارزميات رؤية حاسوبية (OpenCV) لاكتشاف الصور الضبابية أو التالفة، وتقييم مركز الورقة لتجنب الأخطاء التشخيصية تماماً.",
-                    card3_title: "سجل فحوصات مستقل وآمن",
-                    card3_desc: "كل مستخدم لديه حساب خاص وسجل مشفر ومحفوظ في قاعدة بيانات SQLite، مع إمكانية مراجعة الفحوصات السابقة، البحث داخلها، أو حذفها.",
-                    card4_title: "خطط علاجية وإرشادية",
-                    card4_desc: "إلى جانب التشخيص، يزود النظام المستخدم بتوصيات علاجية دقيقة، ومقترحات للمبيدات، وروابط مباشرة لخرائط جوجل لإيجاد المتاجر الزراعية القريبة.",
-                    card5_title: "تصدير التقارير كملف PDF",
-                    card5_desc: "إمكانية توليد وتنزيل تقرير تشخيص رسمي مفصل بصيغة PDF فور انتهاء الفحص بضغطة زر واحدة لتسليمه أو طباعته للمختصين.",
-                    card6_title: "دليل أمراض شامل وفوري",
-                    card6_desc: "محرك بحث متقدم مدعوم بفلترة سريعة حسب نوع المحصول والمرض للوصول الفوري إلى آلاف البيانات والمعلومات الإرشادية.",
-                    tech_tag: "البنية الهندسية والتقنية",
-                    tech_heading: "التقنيات الحديثة المستخدمة في تطوير المشروع",
-                    tech_sub: "تم بناء هذا المشروع وفق أحدث المعايير البرمجية والأكاديمية لضمان أعلى أداء واستقرار تام.",
-                    tech1_title: "Flask Framework",
-                    tech1_desc: "خلفية برمجية سريعة وآمنة لإدارة الجلسات، التوجيه، ومعالجة الطلبات.",
-                    tech2_title: "TensorFlow / Keras",
-                    tech2_desc: "محرك الذكاء الاصطناعي والتعلم العميق لتحليل الصور بدقة.",
-                    tech3_title: "OpenCV Python",
-                    tech3_desc: "معالجة الصور الرقمية، فحص الوضوح، والقص المركزي الذكي (ROI).",
-                    tech4_title: "SQLite3 Database",
-                    tech4_desc: "تخزين آمن وموثوق لبيانات المستخدمين وسجلات التشخيص.",
-                    workflow_tag: "آلية التشغيل",
-                    workflow_heading: "كيف تستخدم النظام للحصول على نتائج دقيقة؟",
-                    step1_title: "إنشاء حساب أو تسجيل الدخول",
-                    step1_desc: "سجل حسابك المجاني في النظام لضمان حفظ سجل فحوصاتك وتقاريرك الشخصية في بيئة آمنة خاصة بك.",
-                    step2_title: "رفع أو لصق صورة النبتة",
-                    step2_desc: "قم باختيار صورة لورقة النبات المصابة من جهازك، أو الصقها مباشرة باستخدام اختصار (Ctrl + V).",
-                    step3_title: "التحليل الفوري بالذكاء الاصطناعي",
-                    step3_desc: "يفحص النظام وضوح الصورة ومحتواها النباتي، ثم يمررها لنموذج التعلم العميق لاكتشاف الإصابة بنسبة الثقة.",
-                    step4_title: "الحصول على التقرير والعلاج",
-                    step4_desc: "تعرف على حالة الإصابة، خطة المكافحة، قم بتحميل تقرير الـ PDF أو ابحث عن أقرب متجر زراعي.",
-                    details_heading: "عن المشروع وأهدافه الأكاديمية",
-                    details_p1: "يعتبر هذا النظام ثمرة مشروع تخرج متكامل يهدف إلى سد الفجوة بين التكنولوجيا الحديثة والقطاع الزراعي. يعتمد على دمج تقنيات الذكاء الاصطناعي، تعلم الآلة، ورؤية الكمبيوتر (Computer Vision) لاكتشاف آفات وأمراض النباتات في مراحلها المبكرة قبل تفاقمها وانتشارها في الحقول.",
-                    details_strong: "الأهمية الاستراتيجية:",
-                    details_p2: "نظراً لارتباط الأمن الغذائي ارتباطاً وثيقاً بسلامة المحاصيل الزراعية، يوفر هذا التطبيق أداة تشخيص سريعة وبديلة للاستشارات الميدانية المكلفة، مما يسهم بشكل مباشر في تقليل الخسائر الاقتصادية للمزارعين ورفع كفاءة الإنتاج النباتي المستدام.",
-                    cta_login_bottom: "ابدأ الآن وأنشئ حسابك المجاني 🚀",
-                    footer_text: "مشروع التخرج للذكاء الاصطناعي والزراعة الذكية © 2026 - جميع الحقوق محفوظة"
-                },
-                en: {
-                    page_title: "Home - Smart Plant Disease Diagnosis System | Graduation Project",
-                    sys_name: "Agricultural AI System",
-                    welcome_msg: "Welcome, {{ session.get('user_name', 'User') }} 👤",
-                    nav_predict: "Predict Plant",
-                    nav_dash: "Dashboard",
-                    nav_search: "Disease Guide",
-                    nav_faq: "Guidelines",
-                    nav_history: "History",
-                    nav_logout: "Logout",
-                    nav_login: "Login / Register",
-                    hero_badge: "🚀 Advanced Academic Graduation Project in Food Security & AI",
-                    hero_title: "Discover Plant Diseases with High Precision <br><span>Using Deep Learning Algorithms</span>",
-                    hero_desc: "An integrated smart system specially designed to help farmers and agricultural engineers diagnose crop pests and diseases instantly via leaf images, with precise infection rates, treatment plans, and navigational maps.",
-                    cta_predict: "Go to Direct Prediction 🌿",
-                    cta_search: "Browse Disease Guide 📖",
-                    cta_login: "Login to Try the System Now 🚀",
-                    stat1_desc: "Deep Learning Model Accuracy",
-                    stat2_val: "&lt; 3 sec",
-                    stat2_desc: "Scan & Image Processing Speed",
-                    stat3_val: "Multiple Crops",
-                    stat3_desc: "Tomato, Potato, Apple, Grape, Corn...",
-                    stat4_desc: "Downloadable Official PDF Reports",
-                    features_tag: "Advanced Features",
-                    features_heading: "Why is this system a revolutionary tool in smart agriculture?",
-                    card1_title: "Instant & Deep Diagnosis",
-                    card1_desc: "The system can analyze a plant leaf image within seconds using advanced Convolutional Neural Networks (CNN) to identify the disease type with extreme accuracy.",
-                    card2_title: "Image Clarity & Safety Check",
-                    card2_desc: "The system features Computer Vision algorithms (OpenCV) to detect blurry or corrupted images and evaluate the center of the leaf to completely avoid diagnostic errors.",
-                    card3_title: "Independent & Secure Scan History",
-                    card3_desc: "Every user has a private account and an encrypted history stored in an SQLite database, with the ability to review past scans, search them, or delete them.",
-                    card4_title: "Treatment & Guidance Plans",
-                    card4_desc: "Along with diagnosis, the system provides users with precise treatment recommendations, pesticide suggestions, and direct Google Maps links to find nearby agricultural stores.",
-                    card5_title: "Export Reports as PDF",
-                    card5_desc: "Ability to generate and download a detailed official diagnosis report in PDF format immediately after the scan with a single click for submission or printing.",
-                    card6_title: "Comprehensive Disease Guide",
-                    card6_desc: "An advanced search engine powered by quick filtering based on crop type and disease for instant access to thousands of data and guidance info.",
-                    tech_tag: "Engineering & Tech Stack",
-                    tech_heading: "Modern Technologies Used in Project Development",
-                    tech_sub: "This project was built according to the latest software and academic standards to ensure top performance and complete stability.",
-                    tech1_title: "Flask Framework",
-                    tech1_desc: "Fast and secure backend for session management, routing, and request handling.",
-                    tech2_title: "TensorFlow / Keras",
-                    tech2_desc: "Artificial intelligence and deep learning engine for accurate image analysis.",
-                    tech3_title: "OpenCV Python",
-                    tech3_desc: "Digital image processing, clarity check, and smart center cropping (ROI).",
-                    tech4_title: "SQLite3 Database",
-                    tech4_desc: "Secure and reliable storage for user data and diagnosis history.",
-                    workflow_tag: "Workflow Mechanism",
-                    workflow_heading: "How to use the system to get accurate results?",
-                    step1_title: "Create Account or Login",
-                    step1_desc: "Register your free account in the system to ensure your scan history and personal reports are saved in your secure private environment.",
-                    step2_title: "Upload or Paste Plant Image",
-                    step2_desc: "Choose an image of the infected plant leaf from your device, or paste it directly using (Ctrl + V).",
-                    step3_title: "Instant AI Analysis",
-                    step3_desc: "The system checks image clarity and plant content, then passes it to the deep learning model to detect infection with confidence scores.",
-                    step4_title: "Get Report & Treatment",
-                    step4_desc: "Learn about the infection status, control plan, download the PDF report, or find the nearest agricultural store.",
-                    details_heading: "About the Project & Academic Goals",
-                    details_p1: "This system is the fruit of an integrated graduation project aimed at bridging the gap between modern technology and the agricultural sector. It relies on integrating artificial intelligence, machine learning, and computer vision to detect plant pests and diseases in their early stages before they escalate and spread in fields.",
-                    details_strong: "Strategic Importance:",
-                    details_p2: "Given the close link between food security and crop safety, this application provides a fast diagnostic tool as an alternative to costly field consultations, directly contributing to reducing economic losses for farmers and raising sustainable plant production efficiency.",
-                    cta_login_bottom: "Start Now & Create Your Free Account 🚀",
-                    footer_text: "Graduation Project for AI and Smart Agriculture © 2026 - All Rights Reserved"
-                }
-            };
-
-            document.querySelectorAll('[data-lang]').forEach(el => {
-                const key = el.getAttribute('data-lang');
-                if (translations[currentLang][key]) {
-                    if (key === 'hero_title' || key === 'stat2_val') {
-                        el.innerHTML = translations[currentLang][key];
-                    } else {
-                        el.textContent = translations[currentLang][key];
-                    }
-                }
-            });
-        }
-
-        function toggleLanguage() {
-            const current = localStorage.getItem('site_lang') || 'ar';
-            const newLang = current === 'ar' ? 'en' : 'ar';
-            localStorage.setItem('site_lang', newLang);
-            applyStoredLanguage();
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            applyStoredLanguage();
-        });
-    </script>
 </body>
 </html>

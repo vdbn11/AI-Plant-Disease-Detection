@@ -1,64 +1,94 @@
-# AI-based Plant Disease Detection
+# AI-Based Plant Disease Detection
 
-Graduation project: detect plant diseases from leaf images using Deep Learning, with a full-stack web application in Arabic.
+An end-to-end web application that identifies plant diseases from leaf photos and returns the diagnosis,
+a confidence score and an Arabic treatment guide. Built with **Flask**, **TensorFlow/Keras**, **OpenCV** and **SQLite**.
+
+---
+
+## Highlights
+
+- **58 disease classes** across 14+ crops (apple, banana, corn, grape, mango, orange, peach, pepper, potato,
+  rice, soybean, squash, strawberry, cherry, blueberry, raspberry, tomato).
+- **97.2% validation accuracy** on a held-out validation split (58-class model).
+- **Arabic-first interface** with treatment recommendations for every class.
+- Multi-user system with authentication, scan history and an analytics dashboard.
+
+---
 
 ## Features
 
-- Plant disease classification from a single leaf photo (38 classes)
-- Image validation pipeline: blur detection, plant-color filtering, non-plant rejection, confidence threshold
-- Severity assessment and treatment recommendations in Arabic
-- User authentication (register / login / password recovery)
-- Personal dashboard with scan history and statistics
-- Disease search with treatment advice
-
-## Tech Stack
-
-| Layer | Technologies |
+| Feature | Description |
 |---|---|
-| AI / ML | TensorFlow, MobileNetV2 (Transfer Learning + Fine-Tuning), Keras |
-| Image Processing | OpenCV, Pillow, NumPy |
-| Backend | Python, Flask, SQLite |
-| Frontend | HTML5, CSS3, JavaScript |
+| Leaf prediction | Upload a leaf image and receive the disease class with a confidence score |
+| Smart cropping | OpenCV pre-processing crops and normalizes the leaf before inference |
+| Accounts | Register, login, logout and password reset, with server-side sessions |
+| History | Every scan is stored per user and can be reviewed or deleted |
+| Dashboard | Totals and statistics for the logged-in user's scans |
+| Disease guide | Before/after leaf images, symptoms and Arabic treatment advice for all classes |
+| Search | Search the disease catalogue by crop or disease name |
+| FAQ | Frequently asked questions page |
+
+---
 
 ## Model
 
-- **Architecture:** MobileNetV2 pretrained on ImageNet, fine-tuned on the last 40 layers
-- **Input:** 224x224x3
-- **Training:** Data augmentation (flip, rotation, zoom, contrast), Adam optimizer (lr=1e-4), EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
-- **Dataset:** Plant Diseases Dataset (train / valid split)
+| Item | Value |
+|---|---|
+| Architecture | Convolutional neural network (TensorFlow / Keras) |
+| Input size | 192 × 192 RGB |
+| Classes | 58 |
+| Validation accuracy | 97.19% |
+| Validation loss | 0.087 |
+| Training time | ~214 minutes |
 
-## Project Structure
+Training details and the full class list are stored in `backend/training_report_v6.json` and
+`backend/classes_v6.json`.
+
+---
+
+## Tech stack
+
+- **Backend:** Python, Flask, TensorFlow / Keras, OpenCV, NumPy
+- **Database:** SQLite
+- **Frontend:** HTML, CSS, JavaScript (Jinja templates)
+
+---
+
+## Project structure
 
 ```
-.
-├── backend/
-│   ├── app.py                  # Flask application + prediction API
-│   ├── train.py                # Model training / fine-tuning script
-│   ├── predict.py              # Standalone prediction helper
-│   ├── classes.json            # Class index mapping
-│   └── plant_disease_model.h5  # Trained model
-├── frontend/
-│   ├── templates/              # Landing, auth, predict, dashboard, history, search, FAQ
-│   └── static/                 # CSS + JS
-└── requirements.txt
+backend/
+  app.py                     # Flask application (routes, auth, prediction, dashboard)
+  train.py                   # Training script
+  classes_v6.json            # 58 class names
+  guide_data.json            # Arabic disease guide (symptoms, treatment, images)
+  guide_manifest.json        # Guide image manifest
+  training_report_v6.json    # Training metrics
+  plant_disease_model_v6.keras
+frontend/
+  templates/                 # Jinja templates (landing, login, predict, history, dashboard, guide, search, faq)
+  static/                    # CSS, JS and before/after guide images
+requirements.txt
+run_app.bat
 ```
 
-## Getting Started
+---
+
+## Run locally
 
 ```bash
 pip install -r requirements.txt
 python backend/app.py
 ```
 
-Then open `http://localhost:5000`.
+Then open <http://127.0.0.1:5000>. On Windows you can also double-click `run_app.bat`.
 
-To retrain the model from scratch, place the dataset in `Plant Diseases Dataset/` with `train/` and `valid/` subfolders and run:
+The application creates `backend/database/plant_records.db` and `backend/uploads/` automatically on first run.
 
-```bash
-python backend/train.py
-```
+---
 
 ## Notes
 
-- The dataset folder is not included in this repository due to its size.
-- The repository is kept private as a graduation project submission.
+- The training dataset and user uploads are **not** included in this repository.
+- The model is provided so the application can be run and evaluated without retraining.
+- `backend/train.py` documents how the model was trained.

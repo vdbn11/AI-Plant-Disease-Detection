@@ -1,0 +1,408 @@
+[
+  {
+    "cls": "Apple___Apple_scab",
+    "plant": "Apple",
+    "healthy": false,
+    "img": "Apple__Apple_scab__diseased.jpg",
+    "before": "Apple__Apple_scab__before.jpg"
+  },
+  {
+    "cls": "Apple___Black_rot",
+    "plant": "Apple",
+    "healthy": false,
+    "img": "Apple__Black_rot__diseased.jpg",
+    "before": "Apple__Black_rot__before.jpg"
+  },
+  {
+    "cls": "Apple___Cedar_apple_rust",
+    "plant": "Apple",
+    "healthy": false,
+    "img": "Apple__Cedar_apple_rust__diseased.jpg",
+    "before": "Apple__Cedar_apple_rust__before.jpg"
+  },
+  {
+    "cls": "Apple___healthy",
+    "plant": "Apple",
+    "healthy": true,
+    "img": "Apple__healthy__healthy.jpg",
+    "before": null
+  },
+  {
+    "cls": "Banana___Sigatoka",
+    "plant": "Banana",
+    "healthy": false,
+    "img": "Banana__Sigatoka__diseased.jpg",
+    "before": "Banana__Sigatoka__before.jpg"
+  },
+  {
+    "cls": "Banana___Xanthomonas",
+    "plant": "Banana",
+    "healthy": false,
+    "img": "Banana__Xanthomonas__diseased.jpg",
+    "before": "Banana__Xanthomonas__before.jpg"
+  },
+  {
+    "cls": "Banana___healthy",
+    "plant": "Banana",
+    "healthy": true,
+    "img": "Banana__healthy__healthy.jpg",
+    "before": null
+  },
+  {
+    "cls": "Blueberry___healthy",
+    "plant": "Blueberry",
+    "healthy": true,
+    "img": "Blueberry__healthy__healthy.jpg",
+    "before": null
+  },
+  {
+    "cls": "Cherry_(including_sour)___Powdery_mildew",
+    "plant": "Cherry_(including_sour)",
+    "healthy": false,
+    "img": "Cherry_including_sour__Powdery_mildew__diseased.jpg",
+    "before": "Cherry_including_sour__Powdery_mildew__before.jpg"
+  },
+  {
+    "cls": "Cherry_(including_sour)___healthy",
+    "plant": "Cherry_(including_sour)",
+    "healthy": true,
+    "img": "Cherry_including_sour__healthy__healthy.jpg",
+    "before": null
+  },
+  {
+    "cls": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+    "plant": "Corn_(maize)",
+    "healthy": false,
+    "img": "Corn_maize__Cercospora_leaf_spot_Gray_leaf_spot__diseased.jpg",
+    "before": "Corn_maize__Cercospora_leaf_spot_Gray_leaf_spot__before.jpg"
+  },
+  {
+    "cls": "Corn_(maize)___Common_rust_",
+    "plant": "Corn_(maize)",
+    "healthy": false,
+    "img": "Corn_maize__Common_rust___diseased.jpg",
+    "before": "Corn_maize__Common_rust___before.jpg"
+  },
+  {
+    "cls": "Corn_(maize)___Northern_Leaf_Blight",
+    "plant": "Corn_(maize)",
+    "healthy": false,
+    "img": "Corn_maize__Northern_Leaf_Blight__diseased.jpg",
+    "before": "Corn_maize__Northern_Leaf_Blight__before.jpg"
+  },
+  {
+    "cls": "Corn_(maize)___healthy",
+    "plant": "Corn_(maize)",
+    "healthy": true,
+    "img": "Corn_maize__healthy__healthy.jpg",
+    "before": null
+  },
+  {
+    "cls": "Grape___Bacterial_Leaf_Spot",
+    "plant": "Grape",
+    "healthy": false,
+    "img": "Grape__Bacterial_Leaf_Spot__diseased.jpg",
+    "before": "Grape__Bacterial_Leaf_Spot__before.jpg"
+  },
+  {
+    "cls": "Grape___Black_rot",
+    "plant": "Grape",
+    "healthy": false,
+    "img": "Grape__Black_rot__diseased.jpg",
+    "before": "Grape__Black_rot__before.jpg"
+  },
+  {
+    "cls": "Grape___Downy_Mildew",
+    "plant": "Grape",
+    "healthy": false,
+    "img": "Grape__Downy_Mildew__diseased.jpg",
+    "before": "Grape__Downy_Mildew__before.jpg"
+  },
+  {
+    "cls": "Grape___Esca_(Black_Measles)",
+    "plant": "Grape",
+    "healthy": false,
+    "img": "Grape__Esca_Black_Measles__diseased.jpg",
+    "before": "Grape__Esca_Black_Measles__before.jpg"
+  },
+  {
+    "cls": "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)",
+    "plant": "Grape",
+    "healthy": false,
+    "img": "Grape__Leaf_blight_Isariopsis_Leaf_Spot__diseased.jpg",
+    "before": "Grape__Leaf_blight_Isariopsis_Leaf_Spot__before.jpg"
+  },
+  {
+    "cls": "Grape___Powdery_Mildew",
+    "plant": "Grape",
+    "healthy": false,
+    "img": "Grape__Powdery_Mildew__diseased.jpg",
+    "before": "Grape__Powdery_Mildew__before.jpg"
+  },
+  {
+    "cls": "Grape___healthy",
+    "plant": "Grape",
+    "healthy": true,
+    "img": "Grape__healthy__healthy.jpg",
+    "before": null
+  },
+  {
+    "cls": "Mango___Anthracnose",
+    "plant": "Mango",
+    "healthy": false,
+    "img": "Mango__Anthracnose__diseased.jpg",
+    "before": "Mango__Anthracnose__before.jpg"
+  },
+  {
+    "cls": "Mango___Bacterial_Canker",
+    "plant": "Mango",
+    "healthy": false,
+    "img": "Mango__Bacterial_Canker__diseased.jpg",
+    "before": "Mango__Bacterial_Canker__before.jpg"
+  },
+  {
+    "cls": "Mango___Cutting_Weevil",
+    "plant": "Mango",
+    "healthy": false,
+    "img": "Mango__Cutting_Weevil__diseased.jpg",
+    "before": "Mango__Cutting_Weevil__before.jpg"
+  },
+  {
+    "cls": "Mango___Die_Back",
+    "plant": "Mango",
+    "healthy": false,
+    "img": "Mango__Die_Back__diseased.jpg",
+    "before": "Mango__Die_Back__before.jpg"
+  },
+  {
+    "cls": "Mango___Gall_Midge",
+    "plant": "Mango",
+    "healthy": false,
+    "img": "Mango__Gall_Midge__diseased.jpg",
+    "before": "Mango__Gall_Midge__before.jpg"
+  },
+  {
+    "cls": "Mango___Powdery_Mildew",
+    "plant": "Mango",
+    "healthy": false,
+    "img": "Mango__Powdery_Mildew__diseased.jpg",
+    "before": "Mango__Powdery_Mildew__before.jpg"
+  },
+  {
+    "cls": "Mango___Sooty_Mould",
+    "plant": "Mango",
+    "healthy": false,
+    "img": "Mango__Sooty_Mould__diseased.jpg",
+    "before": "Mango__Sooty_Mould__before.jpg"
+  },
+  {
+    "cls": "Mango___healthy",
+    "plant": "Mango",
+    "healthy": true,
+    "img": "Mango__healthy__healthy.jpg",
+    "before": null
+  },
+  {
+    "cls": "Orange___Haunglongbing_(Citrus_greening)",
+    "plant": "Orange",
+    "healthy": false,
+    "img": "Orange__Haunglongbing_Citrus_greening__diseased.jpg",
+    "before": null
+  },
+  {
+    "cls": "Peach___Bacterial_spot",
+    "plant": "Peach",
+    "healthy": false,
+    "img": "Peach__Bacterial_spot__diseased.jpg",
+    "before": "Peach__Bacterial_spot__before.jpg"
+  },
+  {
+    "cls": "Peach___healthy",
+    "plant": "Peach",
+    "healthy": true,
+    "img": "Peach__healthy__healthy.jpg",
+    "before": null
+  },
+  {
+    "cls": "Pepper,_bell___Bacterial_spot",
+    "plant": "Pepper,_bell",
+    "healthy": false,
+    "img": "Pepper_bell__Bacterial_spot__diseased.jpg",
+    "before": "Pepper_bell__Bacterial_spot__before.jpg"
+  },
+  {
+    "cls": "Pepper,_bell___healthy",
+    "plant": "Pepper,_bell",
+    "healthy": true,
+    "img": "Pepper_bell__healthy__healthy.jpg",
+    "before": null
+  },
+  {
+    "cls": "Potato___Early_blight",
+    "plant": "Potato",
+    "healthy": false,
+    "img": "Potato__Early_blight__diseased.jpg",
+    "before": "Potato__Early_blight__before.jpg"
+  },
+  {
+    "cls": "Potato___Late_blight",
+    "plant": "Potato",
+    "healthy": false,
+    "img": "Potato__Late_blight__diseased.jpg",
+    "before": "Potato__Late_blight__before.jpg"
+  },
+  {
+    "cls": "Potato___healthy",
+    "plant": "Potato",
+    "healthy": true,
+    "img": "Potato__healthy__healthy.jpg",
+    "before": null
+  },
+  {
+    "cls": "Raspberry___healthy",
+    "plant": "Raspberry",
+    "healthy": true,
+    "img": "Raspberry__healthy__healthy.jpg",
+    "before": null
+  },
+  {
+    "cls": "Rice___Bacterialblight",
+    "plant": "Rice",
+    "healthy": false,
+    "img": "Rice__Bacterialblight__diseased.jpg",
+    "before": "Rice__Bacterialblight__before.jpg"
+  },
+  {
+    "cls": "Rice___Blast",
+    "plant": "Rice",
+    "healthy": false,
+    "img": "Rice__Blast__diseased.jpg",
+    "before": "Rice__Blast__before.jpg"
+  },
+  {
+    "cls": "Rice___Brownspot",
+    "plant": "Rice",
+    "healthy": false,
+    "img": "Rice__Brownspot__diseased.jpg",
+    "before": "Rice__Brownspot__before.jpg"
+  },
+  {
+    "cls": "Rice___Healthy",
+    "plant": "Rice",
+    "healthy": true,
+    "img": "Rice__Healthy__healthy.jpg",
+    "before": null
+  },
+  {
+    "cls": "Rice___Tungro",
+    "plant": "Rice",
+    "healthy": false,
+    "img": "Rice__Tungro__diseased.jpg",
+    "before": "Rice__Tungro__before.jpg"
+  },
+  {
+    "cls": "Soybean___Rust",
+    "plant": "Soybean",
+    "healthy": false,
+    "img": "Soybean__Rust__diseased.jpg",
+    "before": "Soybean__Rust__before.jpg"
+  },
+  {
+    "cls": "Soybean___healthy",
+    "plant": "Soybean",
+    "healthy": true,
+    "img": "Soybean__healthy__healthy.jpg",
+    "before": null
+  },
+  {
+    "cls": "Squash___Powdery_mildew",
+    "plant": "Squash",
+    "healthy": false,
+    "img": "Squash__Powdery_mildew__diseased.jpg",
+    "before": null
+  },
+  {
+    "cls": "Strawberry___Leaf_scorch",
+    "plant": "Strawberry",
+    "healthy": false,
+    "img": "Strawberry__Leaf_scorch__diseased.jpg",
+    "before": "Strawberry__Leaf_scorch__before.jpg"
+  },
+  {
+    "cls": "Strawberry___healthy",
+    "plant": "Strawberry",
+    "healthy": true,
+    "img": "Strawberry__healthy__healthy.jpg",
+    "before": null
+  },
+  {
+    "cls": "Tomato___Bacterial_spot",
+    "plant": "Tomato",
+    "healthy": false,
+    "img": "Tomato__Bacterial_spot__diseased.jpg",
+    "before": "Tomato__Bacterial_spot__before.jpg"
+  },
+  {
+    "cls": "Tomato___Early_blight",
+    "plant": "Tomato",
+    "healthy": false,
+    "img": "Tomato__Early_blight__diseased.jpg",
+    "before": "Tomato__Early_blight__before.jpg"
+  },
+  {
+    "cls": "Tomato___Late_blight",
+    "plant": "Tomato",
+    "healthy": false,
+    "img": "Tomato__Late_blight__diseased.jpg",
+    "before": "Tomato__Late_blight__before.jpg"
+  },
+  {
+    "cls": "Tomato___Leaf_Mold",
+    "plant": "Tomato",
+    "healthy": false,
+    "img": "Tomato__Leaf_Mold__diseased.jpg",
+    "before": "Tomato__Leaf_Mold__before.jpg"
+  },
+  {
+    "cls": "Tomato___Septoria_leaf_spot",
+    "plant": "Tomato",
+    "healthy": false,
+    "img": "Tomato__Septoria_leaf_spot__diseased.jpg",
+    "before": "Tomato__Septoria_leaf_spot__before.jpg"
+  },
+  {
+    "cls": "Tomato___Spider_mites_Two_spotted_spider_mite",
+    "plant": "Tomato",
+    "healthy": false,
+    "img": "Tomato__Spider_mites_Two_spotted_spider_mite__diseased.jpg",
+    "before": "Tomato__Spider_mites_Two_spotted_spider_mite__before.jpg"
+  },
+  {
+    "cls": "Tomato___Target_Spot",
+    "plant": "Tomato",
+    "healthy": false,
+    "img": "Tomato__Target_Spot__diseased.jpg",
+    "before": "Tomato__Target_Spot__before.jpg"
+  },
+  {
+    "cls": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+    "plant": "Tomato",
+    "healthy": false,
+    "img": "Tomato__Tomato_Yellow_Leaf_Curl_Virus__diseased.jpg",
+    "before": "Tomato__Tomato_Yellow_Leaf_Curl_Virus__before.jpg"
+  },
+  {
+    "cls": "Tomato___Tomato_mosaic_virus",
+    "plant": "Tomato",
+    "healthy": false,
+    "img": "Tomato__Tomato_mosaic_virus__diseased.jpg",
+    "before": "Tomato__Tomato_mosaic_virus__before.jpg"
+  },
+  {
+    "cls": "Tomato___healthy",
+    "plant": "Tomato",
+    "healthy": true,
+    "img": "Tomato__healthy__healthy.jpg",
+    "before": null
+  }
+]

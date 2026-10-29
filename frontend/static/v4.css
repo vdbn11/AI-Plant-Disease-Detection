@@ -1,0 +1,121 @@
+/* ============================================================
+   PlantDiseaseAI - واجهة v4 (تصميم موحد احترافي)
+   هذا الملف يوحّد شكل كل الصفحات: خلفية ناعمة، بطاقات 3D، أزرار متدرجة.
+   ============================================================ */
+
+:root{
+  --green-900:#04302a;
+  --green-800:#064e3b;
+  --green-700:#047857;
+  --green-600:#059669;
+  --green-500:#10b981;
+  --teal-400:#2dd4bf;
+  --ink:#0b1220;
+  --muted:#5b6b7c;
+  --card:#ffffff;
+  --radius:22px;
+  --shadow-1:0 1px 2px rgba(2,44,34,.06), 0 8px 24px -12px rgba(2,44,34,.18);
+  --shadow-2:0 2px 4px rgba(2,44,34,.06), 0 24px 48px -20px rgba(2,44,34,.32);
+}
+
+/* ---------- الخلفية العامة ---------- */
+body{
+  background:
+    radial-gradient(1000px 420px at 88% -8%, rgba(16,185,129,.14), transparent 60%),
+    radial-gradient(760px 380px at 6% 4%, rgba(45,212,191,.12), transparent 55%),
+    linear-gradient(180deg,#f7fbf9 0%,#f2f8f6 45%,#eef6f3 100%) !important;
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- الشريط العلوي ---------- */
+header{
+  background:linear-gradient(120deg,var(--green-900),var(--green-800) 55%,#0a5c4a) !important;
+  box-shadow:0 12px 30px -18px rgba(4,48,42,.9), inset 0 -1px 0 rgba(255,255,255,.06);
+  position:sticky; top:0; z-index:50;
+  backdrop-filter:saturate(140%) blur(8px);
+}
+header a{ transition:opacity .2s, transform .2s }
+header a:hover{ opacity:.92 }
+
+/* ---------- البطاقات ---------- */
+.bg-white.rounded-3xl,
+.bg-white.rounded-2xl,
+.rounded-3xl.border,
+main .bg-white{
+  border-radius:var(--radius) !important;
+  box-shadow:var(--shadow-1);
+  border-color:rgba(4,120,87,.10) !important;
+  transition:transform .28s cubic-bezier(.2,.7,.2,1), box-shadow .28s;
+  will-change:transform;
+}
+main .bg-white:hover{
+  transform:translateY(-3px) scale(1.002);
+  box-shadow:var(--shadow-2);
+}
+
+/* لمسة 3D للبطاقات المميزة */
+.rounded-3xl.shadow-xl,
+.shadow-lg{
+  box-shadow:var(--shadow-2) !important;
+}
+
+/* ---------- الأزرار ---------- */
+button[type="submit"], .btn-primary{
+  background:linear-gradient(135deg,var(--green-600),var(--green-700) 60%,#065f46) !important;
+  border:0 !important;
+  border-radius:14px !important;
+  color:#fff !important;
+  font-weight:800 !important;
+  letter-spacing:.2px;
+  box-shadow:0 10px 22px -12px rgba(5,150,105,.9), inset 0 1px 0 rgba(255,255,255,.18);
+  transition:transform .18s, box-shadow .18s, filter .18s;
+}
+button[type="submit"]:hover, .btn-primary:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.04);
+  box-shadow:0 18px 34px -16px rgba(5,150,105,.95), inset 0 1px 0 rgba(255,255,255,.22);
+}
+button[type="submit"]:active, .btn-primary:active{ transform:translateY(0) scale(.99) }
+
+/* ---------- الحقول ---------- */
+input[type="text"], input[type="email"], input[type="password"], input[type="file"], select, textarea{
+  border-radius:14px !important;
+  border:1px solid rgba(4,120,87,.18) !important;
+  background:#fff !important;
+  transition:box-shadow .2s, border-color .2s;
+}
+input:focus, select:focus, textarea:focus{
+  outline:none !important;
+  border-color:var(--green-500) !important;
+  box-shadow:0 0 0 4px rgba(16,185,129,.15) !important;
+}
+
+/* ---------- الجداول ---------- */
+table{ border-radius:16px; overflow:hidden }
+thead{ background:linear-gradient(120deg,var(--green-800),var(--green-700)) !important }
+thead th{ color:#eafff8 !important; font-weight:800 !important; letter-spacing:.2px }
+tbody tr{ transition:background .18s }
+tbody tr:hover{ background:#f0fdf7 }
+
+/* ---------- شارات ووسوم ---------- */
+.rounded-full{ box-shadow:inset 0 0 0 1px rgba(4,120,87,.08) }
+
+/* ---------- أشرطة التمرير ---------- */
+::-webkit-scrollbar{ width:11px; height:11px }
+::-webkit-scrollbar-track{ background:#eef6f3 }
+::-webkit-scrollbar-thumb{ background:linear-gradient(#10b981,#0d9488); border-radius:20px; border:3px solid #eef6f3 }
+
+/* ---------- حركات دخول ناعمة ---------- */
+main > *{ animation:rise .5s cubic-bezier(.2,.7,.2,1) both }
+@keyframes rise{ from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none} }
+
+/* ---------- شريط الحالة السفلي (توست) ---------- */
+#toast-container > div{
+  border-radius:16px !important;
+  box-shadow:0 20px 40px -20px rgba(2,44,34,.6) !important;
+}
+
+/* ---------- عناصر خاصة بالرئيسية الجديدة ---------- */
+.hero-bg{ background:radial-gradient(900px 380px at 15% -10%, #34d39933, transparent),radial-gradient(700px 300px at 90% 0%, #0ea5e933, transparent),linear-gradient(135deg,#04231f 0%,#073b32 45%,#0b6b57 100%) }
+.glass{ background:rgba(255,255,255,.07); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.14) }

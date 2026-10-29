@@ -12,6 +12,7 @@
     <style>
         body { font-family: 'Cairo', sans-serif; }
     </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='v4.css') }}">
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
     <!-- شريط التنقل العلوي -->
@@ -30,6 +31,7 @@
                 <a href="/dashboard" class="hover:text-emerald-200 transition" data-lang="nav_dash">لوحة التحكم</a>
                 <a href="/search_page" class="hover:text-emerald-200 transition" data-lang="nav_search">دليـل الأمراض</a>
                 <a href="/faq_page" class="hover:text-emerald-200 transition" data-lang="nav_faq">الإرشادات</a>
+                <a href="/guide_page" class="hover:text-emerald-200 transition">دليل الأمراض</a>
                 <a href="/history_page" class="hover:text-emerald-200 transition" data-lang="nav_history">السجل</a>
                 <span class="text-emerald-200 font-bold bg-emerald-800/80 px-3 py-1.5 rounded-lg mr-2 text-xs">مرحباً، {{ session.get('user_name', 'مستخدم') }} 👤</span>
                 <!-- زر تبديل اللغات الفوري -->
